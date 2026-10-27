@@ -44,6 +44,202 @@ if (welcomeScreen) {
 }
 
 
+(() => {
+  gsap.registerPlugin(ScrollTrigger);
+
+  const section = document.querySelector("#headphone-experience");
+  const canvas = document.querySelector("#headphone-canvas");
+  const degreeLabel = document.querySelector("#headphone-degree");
+
+  if (!section || !canvas) return;
+
+  // Three.js scene
+  
+const headphoneWrap = document.getElementById(
+  "headphone-canvas-wrap"
+);
+
+let targetTiltX = 0;
+let targetTiltZ = 0;
+let currentTiltX = 0;
+let currentTiltZ = 0;
+
+headphoneWrap.addEventListener("mousemove", (event) => {
+  const rect = headphoneWrap.getBoundingClientRect();
+
+  const x = (event.clientX - rect.left) / rect.width;
+  const y = (event.clientY - rect.top) / rect.height;
+
+  targetTiltZ = (x - 0.5) * 0.20;
+  targetTiltX = (y - 0.5) * 0.20;
+});
+
+headphoneWrap.addEventListener("mouseleave", () => {
+  targetTiltX = 0;
+  targetTiltZ = 0;
+});
+
+  const scene = new THREE.Scene();
+
+  const camera = new THREE.PerspectiveCamera(
+    35,
+    window.innerWidth / window.innerHeight,
+    0.1,
+    100
+  );
+
+  camera.position.set(0, 0, 7);
+
+  const renderer = new THREE.WebGLRenderer({
+    canvas,
+    alpha: true,
+    antialias: true,
+    powerPreference: "high-performance"
+  });
+
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.outputEncoding = THREE.sRGBEncoding;
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1.2;
+  renderer.shadowMap.enabled = true;
+  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+
+
+  // Studio-style lighting
+  scene.add(new THREE.HemisphereLight(0xdce4ff, 0x171525, 2));
+
+  const keyLight = new THREE.DirectionalLight(0xffffff, 3);
+  keyLight.position.set(3, 5, 6);
+  scene.add(keyLight);
+
+  const rimLight = new THREE.DirectionalLight(0x8880ff, 4);
+  rimLight.position.set(-5, 2, -4);
+  scene.add(rimLight);
+
+  const sideLight = new THREE.PointLight(0x63d9ff, 35, 12);
+  sideLight.position.set(4, -1, 3);
+  scene.add(sideLight);
+
+  const headphoneGroup = new THREE.Group();
+  scene.add(headphoneGroup);
+
+  let modelLoaded = false;
+  let animationFrame;
+
+  // Replace this path with your actual GLB model URL.
+  const modelPath = "over-ear-headphones.glb";
+
+  const loader = new THREE.GLTFLoader();
+
+  loader.load(
+    modelPath,
+    (gltf) => {
+      const model = gltf.scene;
+
+      // Center the model and fit it to the scene.
+      const box = new THREE.Box3().setFromObject(model);
+      const size = box.getSize(new THREE.Vector3());
+      const center = box.getCenter(new THREE.Vector3());
+
+      model.position.sub(center);
+
+      const maxDimension = Math.max(size.x, size.y, size.z);
+      const scale = 2.6 / maxDimension;
+
+      model.scale.setScalar(scale);
+
+      model.traverse((child) => {
+        if (child.isMesh) {
+          child.castShadow = true;
+          child.receiveShadow = true;
+
+          if (child.material) {
+            child.material.needsUpdate = true;
+          }
+        }
+      });
+
+      headphoneGroup.add(model);
+      modelLoaded = true;
+    },
+    undefined,
+    (error) => {
+      console.error(
+        "Could not load the headphone model. Check the GLB file path.",
+        error
+      );
+    }
+  );
+
+  // Resize the renderer
+  function resizeRenderer() {
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+
+    camera.aspect = width / height;
+    camera.position.z = width < 700 ? 8.5 : 7;
+    camera.updateProjectionMatrix();
+
+    renderer.setSize(width, height);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  }
+
+  window.addEventListener("resize", resizeRenderer);
+
+  // Scroll progress controls a complete 360-degree rotation.
+  const rotation = { y: 0 };
+
+  gsap.to(rotation, {
+    y: Math.PI,
+    ease: "none",
+    scrollTrigger: {
+      trigger: section,
+      start: "top top",
+      end: "+=1000",
+      scrub: 1,
+      pin: true,
+      anticipatePin: 1,
+      invalidateOnRefresh: true,
+      onUpdate: (self) => {
+        degreeLabel.textContent =
+          String(Math.round(self.progress * 360)).padStart(3, "0") + "°";
+      }
+    }
+  });
+
+  // Render continuously for smooth 3D movement.
+  function render() {
+    animationFrame = requestAnimationFrame(render);
+
+    if (modelLoaded) {
+      headphoneGroup.rotation.y = rotation.y;
+    }
+
+  currentTiltX += (targetTiltX - currentTiltX) * 0.06;
+  currentTiltZ += (targetTiltZ - currentTiltZ) * 0.06;
+
+// Small resting tilt + smooth mouse movement
+  headphoneGroup.rotation.x =
+    THREE.MathUtils.degToRad(15) + currentTiltX;
+
+  headphoneGroup.rotation.z =
+    THREE.MathUtils.degToRad(-15) + currentTiltZ;
+
+    renderer.render(scene, camera);
+  }
+
+  render();
+
+  // Clean up if this component is manually removed.
+  window.addEventListener("pagehide", () => {
+    cancelAnimationFrame(animationFrame);
+    window.removeEventListener("resize", resizeRenderer);
+    renderer.dispose();
+  }, { once: true });
+})(); 
+
 // 1. LOADING SCREEN
 const loader = $(".loader");
 

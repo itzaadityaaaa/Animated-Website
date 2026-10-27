@@ -391,6 +391,231 @@ body.homepage-entering #homepage {
   pointer-events: none;
 }
 
+/* ===== HEADPHONE SCROLL EXPERIENCE ===== */
+
+#headphone-experience {
+  position: relative;
+  height: 100vh;
+  height: 100svh;
+  background: #08090e;
+  color: #fff;
+  font-family: Inter, "Segoe UI", sans-serif;
+}
+
+.headphone-sticky {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  isolation: isolate;
+  background:
+    radial-gradient(ellipse at 50% 55%, #20243a 0%, transparent 48%),
+    #08090e;
+}
+
+.headphone-glow {
+  position: absolute;
+  z-index: -1;
+  width: min(70vw, 700px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: #6556ff;
+  filter: blur(140px);
+  opacity: 0.17;
+  pointer-events: none;
+}
+
+.headphone-copy {
+  position: absolute;
+  z-index: 3;
+  top: 12%;
+  left: 8%;
+  pointer-events: none;
+}
+
+.headphone-eyebrow {
+  display: inline-block;
+  color: #a6a0ff;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 4px;
+  margin-bottom: 20px;
+}
+
+.headphone-copy h1 {
+  margin: 0;
+  font-size: clamp(42px, 7vw, 86px);
+  line-height: 0.98;
+  letter-spacing: -4px;
+  font-weight: 800;
+}
+
+.headphone-copy h1 span {
+  color: #a49aff;
+}
+
+.headphone-copy p {
+  margin-top: 22px;
+  color: #a3a6b8;
+  font-size: 14px;
+  letter-spacing: 0.3px;
+}
+
+#headphone-canvas-wrap {
+  position: absolute;
+  z-index: 2;
+  top: 25%;
+  left: 23%;
+  width: 55%;
+  height: 65%;
+}
+
+#headphone-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+#headphone-canvas-wrap {
+  transition: filter 0.4s ease;
+}
+
+#headphone-canvas-wrap:hover {
+  filter:
+    drop-shadow(0 0 16px rgba(125, 100, 255, 0.4))
+    drop-shadow(0 0 35px rgba(80, 160, 255, 0.2));
+}
+
+#headphone-canvas {
+  display: block;
+  cursor: grab;
+}
+
+.headphone-scroll-hint {
+  position: absolute;
+  z-index: 4;
+  bottom: 8%;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #a7a9ba;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.scroll-line {
+  display: inline-block;
+  width: 30px;
+  height: 1px;
+  background: #a49aff;
+  animation: scroll-line-pulse 1.5s ease-in-out infinite;
+}
+
+.headphone-counter {
+  position: absolute;
+  z-index: 4;
+  right: 8%;
+  bottom: 8%;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  text-align: right;
+  pointer-events: none;
+}
+
+#headphone-degree {
+  font-size: 24px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: #fff;
+}
+
+.counter-label {
+  font-size: 9px;
+  color: #9295a9;
+  letter-spacing: 3px;
+}
+
+#main-website {
+  position: relative;
+  z-index: 1;
+  background: #fff;
+  color: #111;
+  min-height: 100vh;
+}
+
+/* Optional: fade in the content after the pinned section */
+
+@keyframes scroll-line-pulse {
+  0%, 100% {
+    opacity: 0.35;
+    transform: scaleX(0.65);
+    transform-origin: left;
+  }
+
+  50% {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+}
+
+/* Mobile */
+
+@media (max-width: 700px) {
+  .headphone-copy {
+    top: 12%;
+    left: 7%;
+    right: 7%;
+    text-align: center;
+  }
+
+  .headphone-copy h1 {
+    font-size: clamp(42px, 12vw, 65px);
+    letter-spacing: -2px;
+  }
+
+  .headphone-copy p {
+    font-size: 12px;
+  }
+
+  .headphone-eyebrow {
+    font-size: 9px;
+    letter-spacing: 2px;
+  }
+
+  .headphone-glow {
+    width: 100vw;
+    filter: blur(90px);
+  }
+
+  .headphone-counter {
+    right: 7%;
+    bottom: 5%;
+  }
+
+  .headphone-scroll-hint {
+    bottom: 6%;
+    left: 7%;
+    transform: none;
+    font-size: 8px;
+    letter-spacing: 2px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-line {
+    animation: none;
+  }
+}
+
 /* ========================================
    KEYFRAMES
 ======================================== */
