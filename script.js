@@ -9,6 +9,41 @@ const reduceMotion = window.matchMedia(
   "(prefers-reduced-motion: reduce)"
 ).matches;
 
+/* ========================================
+   WELCOME SCREEN CONTROLLER
+======================================== */
+
+const welcomeScreen = document.getElementById("welcome-screen");
+const homepage = document.getElementById("homepage");
+
+if (welcomeScreen) {
+  // Prepare the homepage for its entrance
+  if (homepage) {
+    document.body.classList.add("homepage-entering");
+  }
+
+  // Prevent scrolling during the welcome animation
+  document.body.style.overflow = "hidden";
+
+  // Wait for the welcome animation
+  setTimeout(() => {
+    welcomeScreen.classList.add("hide-welcome");
+
+    // Remove the welcome overlay after its exit
+    setTimeout(() => {
+      welcomeScreen.remove();
+
+      // Reveal the homepage
+      document.body.classList.remove("homepage-entering");
+
+      // Restore normal scrolling
+      document.body.style.overflow = "";
+    }, 900);
+
+  }, 3800);
+}
+
+
 // 1. LOADING SCREEN
 const loader = $(".loader");
 
