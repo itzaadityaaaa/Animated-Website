@@ -253,51 +253,25 @@ if (window.matchMedia("(pointer: fine)").matches && !reduceMotion) {
   });
 }
 
-// 10. CUSTOM DESKTOP CURSOR
-const cursor = $(".cursor");
-
+// 10. POINTER PARALLAX
 if (window.matchMedia("(pointer: fine)").matches && !reduceMotion) {
-  const hoverTargets = [
-    "a", "button", "summary", ".feature-card", ".image-box",
-    ".gallery-item", ".details-image", ".sound-visual", ".hero-product"
-  ].join(", ");
+  const parallaxTargets = $$(".image-box,.gallery-item,.details-image,.buy-product");
 
-  window.addEventListener("pointermove", event => {
-    cursor.style.opacity = "1";
-    cursor.style.left = `${event.clientX}px`;
-    cursor.style.top = `${event.clientY}px`;
-  });
+  parallaxTargets.forEach(target => {
+    target.addEventListener("pointermove", event => {
+      const rect = target.getBoundingClientRect();
+      const x = (event.clientX - rect.left) / rect.width - 0.5;
+      const y = (event.clientY - rect.top) / rect.height - 0.5;
 
-  document.addEventListener("pointerover", event => {
-    if (event.target instanceof Element && event.target.closest(hoverTargets)) {
-      cursor.classList.add("is-hovering");
-    }
-  });
+      target.style.setProperty("--parallax-x", `${x * -14}px`);
+      target.style.setProperty("--parallax-y", `${y * -14}px`);
+      target.style.setProperty("--parallax-rotate", `${x * 1.5}deg`);
+    });
 
-  document.addEventListener("pointerout", event => {
-    const nextTarget = event.relatedTarget;
-
-    if (
-      !(nextTarget instanceof Element) ||
-      !nextTarget.closest(hoverTargets)
-    ) {
-      cursor.classList.remove("is-hovering");
-    }
-  });
-
-  window.addEventListener("pointerleave", () => {
-    cursor.style.opacity = "0";
-    cursor.classList.remove("is-hovering");
-  });
-
-  $$(".feature-card").forEach(card => {
-    card.addEventListener("pointermove", event => {
-      const rect = card.getBoundingClientRect();
-      const x = ((event.clientX - rect.left) / rect.width) * 100;
-      const y = ((event.clientY - rect.top) / rect.height) * 100;
-
-      card.style.setProperty("--pointer-x", `${x}%`);
-      card.style.setProperty("--pointer-y", `${y}%`);
+    target.addEventListener("pointerleave", () => {
+      target.style.removeProperty("--parallax-x");
+      target.style.removeProperty("--parallax-y");
+      target.style.removeProperty("--parallax-rotate");
     });
   });
 }
@@ -329,7 +303,215 @@ window.addEventListener("scroll", () => {
   });
 }, { passive: true });
 
-// 12. PAUSE INFINITE ANIMATIONS WHEN TAB IS HIDDEN
+// 12. GALLERY PREVIEW WITH FLIP TRANSITIONS
+const galleryFigures = $$(".gallery-item");
+const lightbox = $(".gallery-lightbox");
+const lightboxImage = $(".lightbox-image");
+const lightboxCaption = $(".lightbox-caption");
+const lightboxFrame = $(".lightbox-image-frame");
+const lightboxClose = $(".lightbox-close");
+let activeGalleryIndex = -1;
+let lastFocusedElement = null;
+let lightboxTransitioning = false;
+let closeRequested = false;
+let previousBodyOverflow = "";
+let swipeStartX = null;
+
+galleryFigures.forEach((figure, index) => {
+  figure.tabIndex = 0;
+  figure.setAttribute("role", "button");
+  figure.setAttribute(
+    "aria-label",
+    `Open ${$("img", figure).alt} in gallery preview`
+  );
+  figure.addEventListener("click", () => openGalleryImage(index, figure));
+  figure.addEventListener("keydown", event => {
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      openGalleryImage(index, figure);
+    }
+  });
+});
+
+function setGalleryImage(index) {
+  activeGalleryIndex = (index + galleryFigures.length) % galleryFigures.length;
+  const figure = galleryFigures[activeGalleryIndex];
+  const image = $("img", figure);
+
+  lightboxImage.src = image.currentSrc || image.src;
+  lightboxImage.alt = image.alt;
+  lightboxCaption.textContent = $("figcaption", figure).textContent.trim();
+}
+
+function playFlip(sourceImage, targetImage) {
+  const start = sourceImage.getBoundingClientRect();
+  const end = targetImage.getBoundingClientRect();
+  const clone = sourceImage.cloneNode();
+  const scaleX = end.width / start.width;
+  const scaleY = end.height / start.height;
+
+  clone.className = "flip-image";
+  clone.alt = "";
+  clone.setAttribute("aria-hidden", "true");
+  clone.style.left = `${start.left}px`;
+  clone.style.top = `${start.top}px`;
+  clone.style.width = `${start.width}px`;
+  clone.style.height = `${start.height}px`;
+  document.body.append(clone);
+
+  const animation = clone.animate(
+    [
+      { transform: "translate(0,0) scale(1,1)" },
+      {
+        transform:
+          `translate(${end.left - start.left}px,${end.top - start.top}px) ` +
+          `scale(${scaleX},${scaleY})`
+      }
+    ],
+    {
+      duration: reduceMotion ? 0 : 680,
+      easing: "cubic-bezier(.22,.8,.2,1)",
+      fill: "forwards"
+    }
+  );
+
+  return animation.finished.finally(() => clone.remove());
+}
+
+function finishLightboxTransition() {
+  lightboxTransitioning = false;
+
+  if (closeRequested) {
+    closeRequested = false;
+    closeGalleryImage();
+  }
+}
+
+async function openGalleryImage(index, figure) {
+  if (lightbox.classList.contains("is-open") || lightboxTransitioning) return;
+
+  lightboxTransitioning = true;
+  lastFocusedElement = figure;
+  setGalleryImage(index);
+  previousBodyOverflow = document.body.style.overflow;
+  document.body.style.overflow = "hidden";
+  lightbox.classList.remove("is-closing");
+  lightbox.classList.add("is-open");
+  lightbox.setAttribute("aria-hidden", "false");
+  lightboxImage.style.opacity = "0";
+
+  try {
+    await playFlip($("img", figure), lightboxImage);
+    lightboxImage.style.opacity = "1";
+    lightboxClose.focus({ preventScroll: true });
+  } finally {
+    finishLightboxTransition();
+  }
+}
+
+async function closeGalleryImage() {
+  if (!lightbox.classList.contains("is-open")) return;
+  if (lightboxTransitioning) {
+    closeRequested = true;
+    return;
+  }
+
+  lightboxTransitioning = true;
+  const sourceFigure = galleryFigures[activeGalleryIndex];
+  const sourceImage = $("img", sourceFigure);
+
+  lightboxImage.style.opacity = "0";
+  lightbox.classList.add("is-closing");
+
+  try {
+    await playFlip(lightboxImage, sourceImage);
+  } finally {
+    lightbox.classList.remove("is-open", "is-closing");
+    lightbox.setAttribute("aria-hidden", "true");
+    lightboxImage.style.opacity = "";
+    document.body.style.overflow = previousBodyOverflow;
+    finishLightboxTransition();
+    lastFocusedElement?.focus({ preventScroll: true });
+  }
+}
+
+async function moveGalleryImage(direction) {
+  if (!lightbox.classList.contains("is-open") || lightboxTransitioning) return;
+
+  lightboxTransitioning = true;
+  const exit = lightboxImage.animate(
+    [
+      { opacity: 1, transform: "scale(1)" },
+      { opacity: 0, transform: `translateX(${direction * -16}px) scale(.98)` }
+    ],
+    { duration: reduceMotion ? 0 : 180, easing: "ease-in", fill: "forwards" }
+  );
+
+  try {
+    await exit.finished;
+    setGalleryImage(activeGalleryIndex + direction);
+
+    const enter = lightboxImage.animate(
+      [
+        { opacity: 0, transform: `translateX(${direction * 16}px) scale(.98)` },
+        { opacity: 1, transform: "translateX(0) scale(1)" }
+      ],
+      { duration: reduceMotion ? 0 : 300, easing: "cubic-bezier(.22,.8,.2,1)" }
+    );
+
+    await enter.finished;
+  } finally {
+    finishLightboxTransition();
+  }
+}
+
+$(".lightbox-backdrop").addEventListener("click", closeGalleryImage);
+lightboxClose.addEventListener("click", closeGalleryImage);
+$(".lightbox-previous").addEventListener("click", () => moveGalleryImage(-1));
+$(".lightbox-next").addEventListener("click", () => moveGalleryImage(1));
+
+lightboxFrame.addEventListener("pointerdown", event => {
+  if (event.pointerType === "touch") swipeStartX = event.clientX;
+});
+
+lightboxFrame.addEventListener("pointerup", event => {
+  if (swipeStartX === null) return;
+
+  const swipeDistance = event.clientX - swipeStartX;
+  swipeStartX = null;
+
+  if (Math.abs(swipeDistance) > 50) {
+    moveGalleryImage(swipeDistance < 0 ? 1 : -1);
+  }
+});
+
+lightboxFrame.addEventListener("pointercancel", () => {
+  swipeStartX = null;
+});
+
+document.addEventListener("keydown", event => {
+  if (!lightbox.classList.contains("is-open")) return;
+
+  if (event.key === "Escape") closeGalleryImage();
+  if (event.key === "ArrowRight") moveGalleryImage(1);
+  if (event.key === "ArrowLeft") moveGalleryImage(-1);
+
+  if (event.key === "Tab") {
+    const controls = $$(".lightbox-content button", lightbox);
+    const first = controls[0];
+    const last = controls[controls.length - 1];
+
+    if (event.shiftKey && document.activeElement === first) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault();
+      first.focus();
+    }
+  }
+});
+
+// 13. PAUSE INFINITE ANIMATIONS WHEN TAB IS HIDDEN
 document.addEventListener("visibilitychange", () => {
   document.body.classList.toggle(
     "tab-hidden",
