@@ -1258,3 +1258,436 @@ document.addEventListener("visibilitychange", () => {
   updateScene();
 })();
 
+/* ==========================================
+   ISOLATED CAT SCROLL MOVEMENT
+========================================== */
+
+(() => {
+  "use strict";
+
+  const cat = document.getElementById("armor-cat-animation");
+
+  if (!cat) return;
+
+  const svg = cat.querySelector(".armor-cat-animation__svg");
+  const reducedMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)"
+  );
+
+  let targetX = 14;
+  let currentX = 14;
+  let previousScrollY = window.scrollY;
+  let direction = 1;
+  let frameId = null;
+  let stopWalkingTimer = null;
+
+  const clamp = (value, min, max) =>
+    Math.max(min, Math.min(max, value));
+
+  function getTargetX() {
+    const catWidth = cat.getBoundingClientRect().width;
+    const margin = 14;
+    const maxX = Math.max(
+      margin,
+      window.innerWidth - catWidth - margin
+    );
+
+    const maxScroll = Math.max(
+      0,
+      document.documentElement.scrollHeight - window.innerHeight
+    );
+
+    const progress = maxScroll > 0
+      ? clamp(window.scrollY / maxScroll, 0, 1)
+      : 0;
+
+    return margin + progress * (maxX - margin);
+  }
+
+  function render() {
+    frameId = null;
+
+    if (reducedMotion.matches) {
+      currentX = 14;
+      targetX = 14;
+    } else {
+      // Smoothly ease the cat toward its scroll position.
+      currentX += (targetX - currentX) * 0.16;
+
+      if (Math.abs(targetX - currentX) < 0.35) {
+        currentX = targetX;
+      }
+    }
+
+    cat.style.setProperty("--armor-cat-x", `${currentX}px`);
+
+    // Continue easing only while there is movement left to complete.
+    if (
+      !reducedMotion.matches &&
+      Math.abs(targetX - currentX) >= 0.35
+    ) {
+      frameId = window.requestAnimationFrame(render);
+    }
+  }
+
+  function requestRender() {
+    if (frameId === null) {
+      frameId = window.requestAnimationFrame(render);
+    }
+  }
+
+  function handleScroll() {
+    const currentScrollY = window.scrollY;
+    const delta = currentScrollY - previousScrollY;
+
+    if (!reducedMotion.matches && Math.abs(delta) > 0) {
+      direction = delta > 0 ? 1 : -1;
+
+      cat.classList.toggle("is-facing-left", direction < 0);
+      cat.classList.add("is-walking");
+
+      clearTimeout(stopWalkingTimer);
+
+      stopWalkingTimer = window.setTimeout(() => {
+        cat.classList.remove("is-walking");
+      }, 160);
+    }
+
+    previousScrollY = currentScrollY;
+    targetX = getTargetX();
+
+    requestRender();
+  }
+
+  function handleResize() {
+    targetX = getTargetX();
+    requestRender();
+  }
+
+  function handleMotionPreference() {
+    if (reducedMotion.matches) {
+      cat.classList.remove("is-walking");
+      cat.classList.remove("is-facing-left");
+      clearTimeout(stopWalkingTimer);
+    }
+
+    targetX = getTargetX();
+    requestRender();
+  }
+
+  window.addEventListener("scroll", handleScroll, {
+    passive: true
+  });
+
+  window.addEventListener("resize", handleResize, {
+    passive: true
+  });
+
+  if (typeof reducedMotion.addEventListener === "function") {
+    reducedMotion.addEventListener("change", handleMotionPreference);
+  } else {
+    reducedMotion.addListener(handleMotionPreference);
+  }
+
+  // Position correctly on initial load and after page restoration.
+  targetX = getTargetX();
+  currentX = targetX;
+  cat.style.setProperty("--armor-cat-x", `${currentX}px`);
+})();
+
+/* ==========================================
+   CAT — SCROLL, WALK, SIT AND GET UP
+========================================== */
+
+(() => {
+  "use strict";
+
+  const cat = document.getElementById("armor-cat-animation");
+
+  if (!cat) return;
+
+  const reducedMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)"
+  );
+
+  const SIT_DELAY = 2600;
+  const WALK_RELEASE_DELAY = 180;
+
+  let targetX = 14;
+  let currentX = 14;
+  let previousScrollY = window.scrollY;
+
+  let direction = 1;
+  let frameId = null;
+  let sitTimer = null;
+  let walkTimer = null;
+
+  let hasScrolled = false;
+
+  const clamp = (value, min, max) =>
+    Math.max(min, Math.min(max, value));
+
+  function getTargetX() {
+    const catWidth = cat.getBoundingClientRect().width;
+    const margin = 14;
+
+    const maxX = Math.max(
+      margin,
+      window.innerWidth - catWidth - margin
+    );
+
+    const maxScroll = Math.max(
+      0,
+      document.documentElement.scrollHeight -
+        window.innerHeight
+    );
+
+    const progress = maxScroll > 0
+      ? clamp(window.scrollY / maxScroll, 0, 1)
+      : 0;
+
+    return margin + progress * (maxX - margin);
+  }
+
+  function render() {
+    frameId = null;
+
+    if (reducedMotion.matches) {
+      currentX = 14;
+      targetX = 14;
+    } else {
+      // Smooth horizontal movement.
+      currentX += (targetX - currentX) * 0.16;
+
+      if (Math.abs(targetX - currentX) < 0.35) {
+        currentX = targetX;
+      }
+    }
+
+    cat.style.setProperty(
+      "--armor-cat-x",
+      `${currentX}px`
+    );
+
+    if (
+      !reducedMotion.matches &&
+      Math.abs(targetX - currentX) >= 0.35
+    ) {
+      frameId = window.requestAnimationFrame(render);
+    }
+  }
+
+  function requestRender() {
+    if (frameId === null) {
+      frameId = window.requestAnimationFrame(render);
+    }
+  }
+
+  // Begin sitting only after the user has actually scrolled.
+  function scheduleSitting() {
+    clearTimeout(sitTimer);
+
+    if (reducedMotion.matches || !hasScrolled) return;
+
+    sitTimer = window.setTimeout(() => {
+      cat.classList.remove("is-walking");
+
+      // CSS transitions animate the cat lowering into its pose.
+      cat.classList.add("is-sitting");
+    }, SIT_DELAY);
+  }
+
+  function handleScroll() {
+    const currentScrollY = window.scrollY;
+    const delta = currentScrollY - previousScrollY;
+
+    if (Math.abs(delta) > 0) {
+      hasScrolled = true;
+
+      if (!reducedMotion.matches) {
+        direction = delta > 0 ? 1 : -1;
+
+        // Turn the cat to face its direction of travel.
+        cat.classList.toggle(
+          "is-facing-left",
+          direction < 0
+        );
+
+        // Remove the sitting pose to animate standing up.
+        cat.classList.remove("is-sitting");
+
+        clearTimeout(sitTimer);
+        clearTimeout(walkTimer);
+
+        // Start the walking cycle immediately.
+        cat.classList.add("is-walking");
+
+        // Briefly stop the walking cycle between scroll events.
+        walkTimer = window.setTimeout(() => {
+          cat.classList.remove("is-walking");
+        }, WALK_RELEASE_DELAY);
+
+        // Restart the idle timer whenever scrolling continues.
+        scheduleSitting();
+      }
+    }
+
+    previousScrollY = currentScrollY;
+    targetX = getTargetX();
+
+    requestRender();
+  }
+
+  function handleResize() {
+    targetX = getTargetX();
+    requestRender();
+  }
+
+  function handleMotionPreference() {
+    clearTimeout(sitTimer);
+    clearTimeout(walkTimer);
+
+    if (reducedMotion.matches) {
+      cat.classList.remove("is-walking", "is-sitting");
+    } else if (hasScrolled) {
+      scheduleSitting();
+    }
+
+    targetX = getTargetX();
+    requestRender();
+  }
+
+  window.addEventListener("scroll", handleScroll, {
+    passive: true
+  });
+
+  window.addEventListener("resize", handleResize, {
+    passive: true
+  });
+
+  if (typeof reducedMotion.addEventListener === "function") {
+    reducedMotion.addEventListener(
+      "change",
+      handleMotionPreference
+    );
+  } else {
+    reducedMotion.addListener(handleMotionPreference);
+  }
+
+  // Set the initial position without starting the sit timer.
+  targetX = getTargetX();
+  currentX = targetX;
+
+  cat.style.setProperty(
+    "--armor-cat-x",
+    `${currentX}px`
+  );
+})();
+
+/* ============================================
+   AURA — CAT LOOP INTERACTION
+============================================ */
+
+(() => {
+  "use strict";
+
+  const illustrations = document.querySelectorAll(
+    "[data-aura-cat-loop]"
+  );
+
+  if (!illustrations.length) return;
+
+  const reducedMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)"
+  );
+
+  illustrations.forEach((illustration) => {
+    const scene = illustration.querySelector(
+      ".aura-cat-loop__scene"
+    );
+
+    if (!scene) return;
+
+    // Pause animation when the illustration is off-screen.
+    if ("IntersectionObserver" in window) {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            illustration.classList.toggle(
+              "is-paused",
+              !entry.isIntersecting
+            );
+          });
+        },
+        {
+          threshold: 0.05
+        }
+      );
+
+      observer.observe(illustration);
+    }
+
+    // Respect accessibility settings.
+    if (
+      reducedMotion.matches ||
+      !window.matchMedia(
+        "(hover: hover) and (pointer: fine)"
+      ).matches
+    ) {
+      return;
+    }
+
+    let animationFrame = null;
+    let pointerX = 0;
+    let pointerY = 0;
+
+    function updateTilt() {
+      animationFrame = null;
+
+      scene.style.setProperty(
+        "--aura-cat-tilt-x",
+        `${pointerY * -3}deg`
+      );
+
+      scene.style.setProperty(
+        "--aura-cat-tilt-y",
+        `${pointerX * 4}deg`
+      );
+    }
+
+    function handlePointerMove(event) {
+      const bounds = illustration.getBoundingClientRect();
+
+      pointerX =
+        ((event.clientX - bounds.left) / bounds.width - 0.5) * 2;
+
+      pointerY =
+        ((event.clientY - bounds.top) / bounds.height - 0.5) * 2;
+
+      if (animationFrame !== null) return;
+
+      animationFrame = requestAnimationFrame(updateTilt);
+    }
+
+    function resetTilt() {
+      pointerX = 0;
+      pointerY = 0;
+
+      if (animationFrame !== null) {
+        cancelAnimationFrame(animationFrame);
+        animationFrame = null;
+      }
+
+      scene.style.setProperty("--aura-cat-tilt-x", "0deg");
+      scene.style.setProperty("--aura-cat-tilt-y", "0deg");
+    }
+
+    illustration.addEventListener(
+      "pointermove",
+      handlePointerMove,
+      { passive: true }
+    );
+
+    illustration.addEventListener("pointerleave", resetTilt);
+  });
+})();

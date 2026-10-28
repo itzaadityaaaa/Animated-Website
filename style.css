@@ -2922,3 +2922,617 @@ a:focus-visible,button:focus-visible,summary:focus-visible { outline: 2px solid 
   }
 }
 
+/* ==========================================
+   ISOLATED CAT ANIMATION
+   No global selectors or external libraries
+========================================== */
+
+#armor-cat-animation.armor-cat-animation {
+  --armor-cat-x: 14px;
+
+  position: fixed;
+  z-index: 9999;
+  left: 0;
+  bottom: 12px;
+  width: clamp(100px, 14vw, 178px);
+  aspect-ratio: 280 / 160;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+  transform: translate3d(var(--armor-cat-x), 0, 0);
+  will-change: transform;
+  opacity: 0.98;
+}
+
+#armor-cat-animation .armor-cat-animation__svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  filter: drop-shadow(0 5px 4px rgb(0 0 0 / 12%));
+  transform-origin: center;
+}
+
+#armor-cat-animation .armor-cat-animation__shadow {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: armor-cat-shadow 2.6s ease-in-out infinite;
+}
+
+#armor-cat-animation .armor-cat-animation__body {
+  transform-box: view-box;
+  transform-origin: 130px 105px;
+  animation: armor-cat-breathe 2.6s ease-in-out infinite;
+}
+
+/* Tail sways at its base */
+
+#armor-cat-animation .armor-cat-animation__tail {
+  transform-box: view-box;
+  transform-origin: 75px 105px;
+  animation: armor-cat-tail 2.1s ease-in-out infinite;
+}
+
+/* Gentle head and ear motion */
+
+#armor-cat-animation .armor-cat-animation__head {
+  transform-box: view-box;
+  transform-origin: 203px 84px;
+  animation: armor-cat-head 4.8s ease-in-out infinite;
+}
+
+#armor-cat-animation .armor-cat-animation__eye {
+  transform-box: view-box;
+  transform-origin: center;
+  animation: armor-cat-blink 5.5s infinite;
+}
+
+#armor-cat-animation .armor-cat-animation__eye--right {
+  animation-delay: 0.04s;
+}
+
+/* Keep lids hidden except during a blink */
+
+#armor-cat-animation .armor-cat-animation__eyelids {
+  opacity: 0;
+  transform-box: view-box;
+  transform-origin: 212px 68px;
+  animation: armor-cat-eyelid 5.5s infinite;
+}
+
+/* Walking legs remain still while the cat is idle */
+
+#armor-cat-animation .armor-cat-animation__leg {
+  transform-box: view-box;
+}
+
+#armor-cat-animation .armor-cat-animation__leg--rear-a {
+  transform-origin: 88px 105px;
+}
+
+#armor-cat-animation .armor-cat-animation__leg--rear-b {
+  transform-origin: 127px 105px;
+}
+
+#armor-cat-animation .armor-cat-animation__leg--front-a {
+  transform-origin: 161px 104px;
+}
+
+#armor-cat-animation .armor-cat-animation__leg--front-b {
+  transform-origin: 179px 104px;
+}
+
+/* Alternating steps while scrolling */
+
+#armor-cat-animation.is-walking .armor-cat-animation__leg--rear-a {
+  animation: armor-cat-step-a 0.34s ease-in-out infinite alternate;
+}
+
+#armor-cat-animation.is-walking .armor-cat-animation__leg--rear-b {
+  animation: armor-cat-step-b 0.34s ease-in-out infinite alternate;
+}
+
+#armor-cat-animation.is-walking .armor-cat-animation__leg--front-a {
+  animation: armor-cat-step-b 0.34s ease-in-out infinite alternate;
+}
+
+#armor-cat-animation.is-walking .armor-cat-animation__leg--front-b {
+  animation: armor-cat-step-a 0.34s ease-in-out infinite alternate;
+}
+
+#armor-cat-animation .armor-cat-animation__svg {
+  transition: transform 0.18s ease;
+}
+
+/* Flip the entire cat when moving back up */
+
+#armor-cat-animation.is-facing-left .armor-cat-animation__svg {
+  transform: scaleX(-1);
+}
+
+/* ==========================================
+   KEYFRAMES
+========================================== */
+
+@keyframes armor-cat-breathe {
+  0%, 100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-1.8px);
+  }
+}
+
+@keyframes armor-cat-tail {
+  0%, 100% {
+    transform: rotate(-5deg);
+  }
+
+  50% {
+    transform: rotate(12deg);
+  }
+}
+
+@keyframes armor-cat-head {
+  0%, 87%, 100% {
+    transform: rotate(0deg);
+  }
+
+  91% {
+    transform: rotate(-3deg);
+  }
+
+  95% {
+    transform: rotate(2deg);
+  }
+}
+
+@keyframes armor-cat-blink {
+  0%, 42%, 46%, 82%, 86%, 100% {
+    transform: scaleY(1);
+  }
+
+  44%, 84% {
+    transform: scaleY(0.08);
+  }
+}
+
+@keyframes armor-cat-eyelid {
+  0%, 42%, 46%, 82%, 86%, 100% {
+    opacity: 0;
+  }
+
+  44%, 84% {
+    opacity: 1;
+  }
+}
+
+@keyframes armor-cat-step-a {
+  from {
+    transform: rotate(-13deg);
+  }
+
+  to {
+    transform: rotate(13deg);
+  }
+}
+
+@keyframes armor-cat-step-b {
+  from {
+    transform: rotate(13deg);
+  }
+
+  to {
+    transform: rotate(-13deg);
+  }
+}
+
+@keyframes armor-cat-shadow {
+  0%, 100% {
+    opacity: 0.2;
+    transform: scaleX(1);
+  }
+
+  50% {
+    opacity: 0.13;
+    transform: scaleX(0.91);
+  }
+}
+
+/* Mobile */
+
+@media (max-width: 600px) {
+  #armor-cat-animation.armor-cat-animation {
+    width: 100px;
+    bottom: 8px;
+  }
+}
+
+/* Reduced motion */
+
+@media (prefers-reduced-motion: reduce) {
+  #armor-cat-animation *,
+  #armor-cat-animation *::before,
+  #armor-cat-animation *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* =========================================
+   CAT — SIT, REST AND GET UP
+========================================= */
+
+#armor-cat-animation .armor-cat-animation__body,
+#armor-cat-animation .armor-cat-animation__head,
+#armor-cat-animation .armor-cat-animation__rear-legs,
+#armor-cat-animation .armor-cat-animation__front-legs,
+#armor-cat-animation .armor-cat-animation__tail {
+  transform-box: view-box;
+  transition:
+    translate 650ms cubic-bezier(.22, .75, .25, 1),
+    rotate 650ms cubic-bezier(.22, .75, .25, 1);
+}
+
+/* Default standing pose */
+
+#armor-cat-animation .armor-cat-animation__body {
+  translate: 0 0;
+  rotate: 0deg;
+  transform-origin: 88px 108px;
+}
+
+#armor-cat-animation .armor-cat-animation__head {
+  translate: 0 0;
+  rotate: 0deg;
+  transform-origin: 204px 82px;
+}
+
+#armor-cat-animation .armor-cat-animation__rear-legs {
+  translate: 0 0;
+  rotate: 0deg;
+  transform-origin: 100px 120px;
+}
+
+#armor-cat-animation .armor-cat-animation__front-legs {
+  translate: 0 0;
+  rotate: 0deg;
+  transform-origin: 174px 110px;
+}
+
+/* Smoothly lower into a sitting position */
+
+#armor-cat-animation.is-sitting .armor-cat-animation__body {
+  translate: 7px -7px;
+  rotate: -12deg;
+}
+
+#armor-cat-animation.is-sitting .armor-cat-animation__head {
+  translate: 1px -7px;
+  rotate: -3deg;
+}
+
+#armor-cat-animation.is-sitting .armor-cat-animation__rear-legs {
+  translate: 10px -2px;
+  rotate: -8deg;
+}
+
+#armor-cat-animation.is-sitting .armor-cat-animation__front-legs {
+  translate: -5px -1px;
+  rotate: -5deg;
+}
+
+/* Resting tail */
+
+#armor-cat-animation.is-sitting .armor-cat-animation__tail {
+  animation-duration: 3.2s;
+}
+
+/* Make the ground shadow smaller while sitting */
+
+#armor-cat-animation .armor-cat-animation__shadow {
+  transition:
+    opacity 650ms ease,
+    scale 650ms ease;
+  scale: 1 1;
+}
+
+#armor-cat-animation.is-sitting .armor-cat-animation__shadow {
+  scale: .84 1;
+  opacity: .14;
+}
+
+/* Walking stops when the cat sits */
+
+#armor-cat-animation.is-sitting .armor-cat-animation__leg {
+  animation-play-state: paused;
+}
+
+/* Keep the state changes smooth on mobile too */
+
+@media (prefers-reduced-motion: reduce) {
+  #armor-cat-animation .armor-cat-animation__body,
+  #armor-cat-animation .armor-cat-animation__head,
+  #armor-cat-animation .armor-cat-animation__rear-legs,
+  #armor-cat-animation .armor-cat-animation__front-legs,
+  #armor-cat-animation .armor-cat-animation__tail,
+  #armor-cat-animation .armor-cat-animation__shadow {
+    transition: none !important;
+  }
+}
+
+/* ============================================
+   AURA — FLOATING CAT ILLUSTRATION
+   All styles are scoped to the cat component.
+============================================ */
+
+.aura-cat-loop {
+  position: relative;
+  isolation: isolate;
+  width: min(100%, 900px);
+  aspect-ratio: 640 / 460;
+  min-height: 280px;
+  margin: 0 auto;
+  overflow: hidden;
+  border-radius: 18px;
+  background:
+    radial-gradient(
+      ellipse at 50% 47%,
+      #27223f 0%,
+      #151426 48%,
+      #0b0b14 100%
+    );
+  perspective: 1000px;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.aura-cat-loop__scene {
+  position: absolute;
+  inset: 0;
+  transform:
+    perspective(1000px)
+    rotateX(var(--aura-cat-tilt-x, 0deg))
+    rotateY(var(--aura-cat-tilt-y, 0deg));
+  transform-style: preserve-3d;
+  transition: transform 350ms ease-out;
+  will-change: transform;
+}
+
+.aura-cat-loop__svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* Cat floating movement */
+
+.aura-cat-loop__cat {
+  transform-box: view-box;
+  transform-origin: 275px 225px;
+  animation: aura-cat-float 4s ease-in-out infinite;
+}
+
+.aura-cat-loop__head {
+  transform-box: view-box;
+  transform-origin: 273px 207px;
+  animation: aura-cat-head-tilt 4s ease-in-out infinite;
+}
+
+.aura-cat-loop__tail {
+  transform-box: view-box;
+  transform-origin: 390px 282px;
+  animation: aura-cat-tail-swish 2.3s ease-in-out infinite;
+}
+
+.aura-cat-loop__reach {
+  transform-box: view-box;
+  transform-origin: 282px 250px;
+  animation: aura-cat-reach 2.8s ease-in-out infinite;
+}
+
+.aura-cat-loop__shadow {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: aura-cat-shadow 4s ease-in-out infinite;
+}
+
+/* Blinking */
+
+.aura-cat-loop__eyes {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: aura-cat-blink 5s ease-in-out infinite;
+}
+
+/* Star movement */
+
+.aura-cat-loop__star {
+  transform-box: view-box;
+  transform-origin: 184px 192px;
+  animation: aura-cat-star-float 3s ease-in-out infinite;
+}
+
+.aura-cat-loop__twinkle {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: aura-cat-twinkle 2.5s ease-in-out infinite;
+}
+
+.aura-cat-loop__twinkle--delay {
+  animation-delay: -1.1s;
+}
+
+/* Orbiting bead */
+
+.aura-cat-loop__orbiting-dot {
+  transform-box: view-box;
+  transform-origin: 320px 230px;
+  animation: aura-cat-orbit 14s linear infinite;
+}
+
+/* Bubbles */
+
+.aura-cat-loop__bubble {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: aura-cat-bubble 3.8s ease-in-out infinite;
+}
+
+.aura-cat-loop__bubble--two {
+  animation-delay: -1.3s;
+}
+
+.aura-cat-loop__bubble--three {
+  animation-delay: -2.5s;
+}
+
+/* Keyframes */
+
+@keyframes aura-cat-float {
+  0%, 100% {
+    transform: translateY(4px) rotate(-1deg);
+  }
+
+  50% {
+    transform: translateY(-12px) rotate(1deg);
+  }
+}
+
+@keyframes aura-cat-head-tilt {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+
+  50% {
+    transform: rotate(-3deg);
+  }
+}
+
+@keyframes aura-cat-tail-swish {
+  0%, 100% {
+    transform: rotate(-7deg);
+  }
+
+  50% {
+    transform: rotate(12deg);
+  }
+}
+
+@keyframes aura-cat-reach {
+  0%, 100% {
+    transform: rotate(0deg) translateY(0);
+  }
+
+  45% {
+    transform: rotate(-4deg) translateY(-4px);
+  }
+
+  70% {
+    transform: rotate(2deg) translateY(1px);
+  }
+}
+
+@keyframes aura-cat-shadow {
+  0%, 100% {
+    transform: scaleX(1);
+    opacity: 0.32;
+  }
+
+  50% {
+    transform: scaleX(0.82);
+    opacity: 0.18;
+  }
+}
+
+@keyframes aura-cat-blink {
+  0%, 43%, 47%, 85%, 89%, 100% {
+    transform: scaleY(1);
+  }
+
+  45%, 87% {
+    transform: scaleY(0.08);
+  }
+}
+
+@keyframes aura-cat-star-float {
+  0%, 100% {
+    transform: translateY(0) rotate(-4deg);
+  }
+
+  50% {
+    transform: translateY(-9px) rotate(5deg);
+  }
+}
+
+@keyframes aura-cat-twinkle {
+  0%, 100% {
+    opacity: 0.45;
+    transform: scale(0.75);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.15);
+  }
+}
+
+@keyframes aura-cat-orbit {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes aura-cat-bubble {
+  0%, 100% {
+    transform: translateY(3px);
+    opacity: 0.45;
+  }
+
+  50% {
+    transform: translateY(-13px);
+    opacity: 1;
+  }
+}
+
+/* Pause animations when outside the viewport */
+
+.aura-cat-loop.is-paused *,
+.aura-cat-loop.is-paused *::before,
+.aura-cat-loop.is-paused *::after {
+  animation-play-state: paused !important;
+}
+
+/* Responsive sizing */
+
+@media (max-width: 600px) {
+  .aura-cat-loop {
+    width: 100%;
+    min-height: 0;
+    border-radius: 12px;
+  }
+
+  .aura-cat-loop__scene {
+    transition-duration: 200ms;
+  }
+}
+
+/* Reduced-motion accessibility */
+
+@media (prefers-reduced-motion: reduce) {
+  .aura-cat-loop *,
+  .aura-cat-loop *::before,
+  .aura-cat-loop *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .aura-cat-loop__scene {
+    transform: none !important;
+  }
+}

@@ -4,10 +4,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AURA — Hear Beyond</title>
+  <title>AURA® — Hear Beyond</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <link rel="icon" type="image/png" href="./aura.png">
 </head>
 <body>
 
@@ -82,6 +83,325 @@
     <a href="#buy">Get AURA ↗</a>
   </nav>
   <main>
+
+    
+
+    <!-- Isolated animated cat -->
+<div id="armor-cat-animation" class="armor-cat-animation" aria-hidden="true">
+  <svg
+    class="armor-cat-animation__svg"
+    viewBox="0 0 280 160"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <defs>
+      <linearGradient id="armor-cat-fur" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color="#626879"/>
+        <stop offset="50%" stop-color="#3c4250"/>
+        <stop offset="100%" stop-color="#242936"/>
+      </linearGradient>
+
+      <linearGradient id="armor-cat-belly" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#e7e4dc"/>
+        <stop offset="100%" stop-color="#b9bdc8"/>
+      </linearGradient>
+
+      <linearGradient id="armor-cat-ear" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color="#f4a9b6"/>
+        <stop offset="100%" stop-color="#d76d89"/>
+      </linearGradient>
+
+      <radialGradient id="armor-cat-eye">
+        <stop offset="0%" stop-color="#fff8c8"/>
+        <stop offset="100%" stop-color="#d4b653"/>
+      </radialGradient>
+    </defs>
+
+    <!-- Ground shadow -->
+    <ellipse
+      class="armor-cat-animation__shadow"
+      cx="145" cy="144" rx="75" ry="7"
+      fill="#11131a"
+      opacity=".24"
+    />
+
+    <!-- Tail -->
+    <g class="armor-cat-animation__tail">
+      <path
+        d="M79 110
+           C54 124 30 109 37 89
+           C41 77 53 74 63 84"
+        fill="none"
+        stroke="#292e3b"
+        stroke-width="19"
+        stroke-linecap="round"
+      />
+
+      <path
+        d="M79 108
+           C56 119 37 106 42 91
+           C45 83 53 81 59 87"
+        fill="none"
+        stroke="url(#armor-cat-fur)"
+        stroke-width="12"
+        stroke-linecap="round"
+      />
+
+      <path
+        d="M42 91 C45 83 53 81 59 87"
+        fill="none"
+        stroke="#858c9e"
+        stroke-width="2"
+        stroke-linecap="round"
+        opacity=".65"
+      />
+    </g>
+
+    <!-- Rear legs -->
+    <g class="armor-cat-animation__rear-legs">
+      <path
+        class="armor-cat-animation__leg armor-cat-animation__leg--rear-a"
+        d="M85 101
+           C79 110 78 119 80 132
+           Q82 139 90 138
+           L96 134
+           L98 113
+           L105 104 Z"
+        fill="#303643"
+      />
+
+      <path
+        class="armor-cat-animation__leg armor-cat-animation__leg--rear-b"
+        d="M119 104
+           L137 106
+           L139 131
+           Q145 139 137 140
+           L126 138
+           L119 130 Z"
+        fill="#424958"
+      />
+    </g>
+
+    <!-- Main body -->
+    <g class="armor-cat-animation__body">
+      <path
+        d="M68 105
+           C65 89 78 76 98 72
+           C116 68 132 73 145 81
+           C156 88 169 88 179 81
+           L192 75
+           C201 79 207 87 204 96
+           C200 106 184 112 172 115
+           C148 121 108 120 84 116
+           C76 115 71 111 68 105 Z"
+        fill="url(#armor-cat-fur)"
+        stroke="#252a36"
+        stroke-width="2"
+        stroke-linejoin="round"
+      />
+
+      <!-- Belly -->
+      <path
+        d="M111 108
+           C128 104 150 107 166 104
+           C157 116 139 119 120 116 Z"
+        fill="url(#armor-cat-belly)"
+        opacity=".9"
+      />
+
+      <!-- Back markings -->
+      <path
+        d="M91 78 L98 89
+           M105 74 L112 84
+           M120 76 L126 85"
+        fill="none"
+        stroke="#858b9b"
+        stroke-width="3"
+        stroke-linecap="round"
+        opacity=".65"
+      />
+
+      <!-- Front chest -->
+      <path
+        d="M177 82
+           C183 88 184 99 176 108
+           C170 113 164 113 158 110
+           C169 102 169 92 166 86 Z"
+        fill="url(#armor-cat-belly)"
+      />
+    </g>
+
+    <!-- Front legs -->
+    <g class="armor-cat-animation__front-legs">
+      <path
+        class="armor-cat-animation__leg armor-cat-animation__leg--front-a"
+        d="M157 101
+           C153 110 154 124 156 134
+           Q160 140 168 136
+           L173 132
+           L170 104 Z"
+        fill="#d0d0d4"
+      />
+
+      <path
+        class="armor-cat-animation__leg armor-cat-animation__leg--front-b"
+        d="M174 100
+           L188 98
+           C190 109 188 121 186 133
+           Q190 140 181 140
+           L173 137
+           L169 115 Z"
+        fill="#ece8df"
+      />
+
+      <!-- Paw toes -->
+      <path
+        d="M158 134 L163 136
+           M178 135 L183 136"
+        fill="none"
+        stroke="#858999"
+        stroke-width="1.5"
+        stroke-linecap="round"
+      />
+    </g>
+
+    <!-- Head -->
+    <g class="armor-cat-animation__head">
+      <path
+        d="M179 63
+           L175 40
+           Q174 34 180 38
+           L197 49
+           Q207 45 216 49
+           L231 37
+           Q237 33 237 41
+           L234 64
+           C241 79 231 95 216 99
+           C198 102 181 88 179 73 Z"
+        fill="url(#armor-cat-fur)"
+        stroke="#252a36"
+        stroke-width="2"
+        stroke-linejoin="round"
+      />
+
+      <!-- Inner ears -->
+      <path
+        d="M181 45 L193 53 L183 60 Z"
+        fill="url(#armor-cat-ear)"
+      />
+
+      <path
+        d="M221 52 L232 43 L230 60 Z"
+        fill="url(#armor-cat-ear)"
+      />
+
+      <!-- Forehead markings -->
+      <path
+        d="M203 51 L208 59
+           M214 52 L216 59"
+        stroke="#9ba0af"
+        stroke-width="2"
+        stroke-linecap="round"
+        fill="none"
+      />
+
+      <!-- Eyes -->
+      <g class="armor-cat-animation__eye armor-cat-animation__eye--left">
+        <ellipse
+          cx="202" cy="68" rx="5.4" ry="7"
+          fill="url(#armor-cat-eye)"
+        />
+        <ellipse
+          cx="204" cy="68" rx="2.3" ry="4.5"
+          fill="#1c2630"
+        />
+        <circle cx="205" cy="65" r="1.4" fill="#ffffff"/>
+      </g>
+
+      <g class="armor-cat-animation__eye armor-cat-animation__eye--right">
+        <ellipse
+          cx="220" cy="68" rx="5.2" ry="7"
+          fill="url(#armor-cat-eye)"
+        />
+        <ellipse
+          cx="222" cy="68" rx="2.3" ry="4.5"
+          fill="#1c2630"
+        />
+        <circle cx="223" cy="65" r="1.4" fill="#ffffff"/>
+      </g>
+
+      <!-- Muzzle -->
+      <ellipse
+        cx="219" cy="81" rx="11" ry="8"
+        fill="url(#armor-cat-belly)"
+      />
+
+      <path
+        d="M222 76 L228 78 L223 82 Z"
+        fill="#d77f90"
+      />
+
+      <path
+        d="M223 82 Q220 86 216 83
+           M223 82 Q227 86 230 82"
+        fill="none"
+        stroke="#3a3c47"
+        stroke-width="1.5"
+        stroke-linecap="round"
+      />
+
+      <!-- Whiskers -->
+      <g
+        fill="none"
+        stroke="#e4e3e1"
+        stroke-width="1"
+        stroke-linecap="round"
+        opacity=".85"
+      >
+        <path d="M215 81 L195 77"/>
+        <path d="M215 84 L195 86"/>
+        <path d="M227 81 L245 77"/>
+        <path d="M227 84 L245 87"/>
+      </g>
+
+      <!-- Collar -->
+      <path
+        d="M177 88 Q170 97 160 94"
+        fill="none"
+        stroke="#76dff0"
+        stroke-width="4"
+        stroke-linecap="round"
+      />
+
+      <circle
+        cx="165" cy="96" r="4"
+        fill="#8ceeff"
+        stroke="#303a4b"
+        stroke-width="1"
+      />
+    </g>
+
+    <!-- Eye lids appear briefly for blinking -->
+    <g class="armor-cat-animation__eyelids">
+      <path
+        d="M197 68 Q202 62 207 68"
+        stroke="#343a47"
+        stroke-width="4"
+        stroke-linecap="round"
+        fill="none"
+      />
+      <path
+        d="M215 68 Q220 62 225 68"
+        stroke="#343a47"
+        stroke-width="4"
+        stroke-linecap="round"
+        fill="none"
+      />
+    </g>
+
+  </svg>
+</div>
+
+
     <!-- HERO -->
     <section class="hero section" id="home">
       <div class="hero-heading">
@@ -559,6 +879,7 @@
       </div>
     </section>
 
+
     <!-- FEATURES -->
     <section class="features section" id="features">
       <div class="section-top reveal">
@@ -858,6 +1179,520 @@
       </div>
     </section>
   </main>
+<!-- AURA — LOOPING CAT ILLUSTRATION -->
+<div
+  class="aura-cat-loop"
+  data-aura-cat-loop
+  role="img"
+  aria-label="A floating illustrated cat reaching for a glowing star"
+>
+  <div class="aura-cat-loop__scene">
+
+    <svg
+      class="aura-cat-loop__svg"
+      viewBox="0 0 640 460"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+    >
+      <defs>
+        <radialGradient id="aura-cat-bg-glow">
+          <stop offset="0%" stop-color="#51418c" stop-opacity=".58"/>
+          <stop offset="100%" stop-color="#100f20" stop-opacity="0"/>
+        </radialGradient>
+
+        <linearGradient id="aura-cat-fur" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#b4a9eb"/>
+          <stop offset="48%" stop-color="#8276bd"/>
+          <stop offset="100%" stop-color="#514c83"/>
+        </linearGradient>
+
+        <linearGradient id="aura-cat-light-fur" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#f3eaff"/>
+          <stop offset="100%" stop-color="#c4b9ed"/>
+        </linearGradient>
+
+        <linearGradient id="aura-cat-inner-ear" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#ffb6d0"/>
+          <stop offset="100%" stop-color="#e879ab"/>
+        </linearGradient>
+
+        <radialGradient id="aura-cat-star-gradient">
+          <stop offset="0%" stop-color="#fffde1"/>
+          <stop offset="55%" stop-color="#ffe28a"/>
+          <stop offset="100%" stop-color="#ffb84d"/>
+        </radialGradient>
+
+        <radialGradient id="aura-cat-orb-glow">
+          <stop offset="0%" stop-color="#ffe8a1" stop-opacity=".7"/>
+          <stop offset="100%" stop-color="#ffc85e" stop-opacity="0"/>
+        </radialGradient>
+
+        <filter
+          id="aura-cat-glow"
+          x="-100%"
+          y="-100%"
+          width="300%"
+          height="300%"
+        >
+          <feGaussianBlur stdDeviation="7" result="blur"/>
+          <feMerge>
+            <feMergeNode in="blur"/>
+            <feMergeNode in="SourceGraphic"/>
+          </feMerge>
+        </filter>
+
+        <filter
+          id="aura-cat-soft-shadow"
+          x="-50%"
+          y="-50%"
+          width="200%"
+          height="200%"
+        >
+          <feGaussianBlur stdDeviation="10"/>
+        </filter>
+      </defs>
+
+      <!-- Background atmosphere -->
+      <circle
+        cx="320"
+        cy="230"
+        r="210"
+        fill="url(#aura-cat-bg-glow)"
+      />
+
+      <!-- Fine orbit -->
+      <ellipse
+        class="aura-cat-loop__orbit"
+        cx="320"
+        cy="230"
+        rx="235"
+        ry="133"
+        fill="none"
+        stroke="#aaa0ed"
+        stroke-opacity=".25"
+        stroke-width="1"
+        stroke-dasharray="3 9"
+        transform="rotate(-17 320 230)"
+      />
+
+      <!-- Second orbit -->
+      <ellipse
+        cx="320"
+        cy="230"
+        rx="185"
+        ry="102"
+        fill="none"
+        stroke="#8a81ca"
+        stroke-opacity=".14"
+        stroke-width="1"
+        transform="rotate(22 320 230)"
+      />
+
+      <!-- Tiny stars -->
+      <g class="aura-cat-loop__twinkle">
+        <path
+          d="M126 124 L130 135 L141 139 L130 143 L126 154 L122 143 L111 139 L122 135 Z"
+          fill="#e2d9ff"
+        />
+      </g>
+
+      <g class="aura-cat-loop__twinkle aura-cat-loop__twinkle--delay">
+        <path
+          d="M480 137 L483 145 L491 148 L483 151 L480 159 L477 151 L469 148 L477 145 Z"
+          fill="#ffe6a4"
+        />
+      </g>
+
+      <circle cx="495" cy="281" r="2.5" fill="#a8ebff"/>
+      <circle cx="166" cy="307" r="2" fill="#e6dfff"/>
+      <circle cx="438" cy="365" r="2.5" fill="#a8ebff"/>
+      <circle cx="350" cy="100" r="2" fill="#ffffff"/>
+      <circle cx="200" cy="190" r="1.8" fill="#ffffff"/>
+
+      <!-- Glowing star that the cat follows -->
+      <g class="aura-cat-loop__star">
+        <circle
+          cx="184"
+          cy="192"
+          r="35"
+          fill="url(#aura-cat-orb-glow)"
+        />
+
+        <path
+          d="M184 167
+             L191 184
+             L209 192
+             L191 199
+             L184 217
+             L177 199
+             L159 192
+             L177 184 Z"
+          fill="url(#aura-cat-star-gradient)"
+          filter="url(#aura-cat-glow)"
+        />
+
+        <circle cx="184" cy="192" r="4" fill="#ffffff"/>
+      </g>
+
+      <!-- Orbiting bead -->
+      <g class="aura-cat-loop__orbiting-dot">
+        <circle cx="554" cy="230" r="5" fill="#9aefff"/>
+        <circle
+          cx="554"
+          cy="230"
+          r="12"
+          fill="none"
+          stroke="#9aefff"
+          stroke-opacity=".35"
+        />
+      </g>
+
+      <!-- Cat's soft floating shadow -->
+      <ellipse
+        class="aura-cat-loop__shadow"
+        cx="335"
+        cy="358"
+        rx="83"
+        ry="11"
+        fill="#02030a"
+        opacity=".35"
+        filter="url(#aura-cat-soft-shadow)"
+      />
+
+      <!-- Main floating cat -->
+      <g class="aura-cat-loop__cat">
+
+        <!-- Tail -->
+        <g class="aura-cat-loop__tail">
+          <path
+            d="M391 282
+               C427 279 457 255 446 229
+               C438 209 416 207 411 224
+               C408 234 419 241 427 234"
+            fill="none"
+            stroke="#4c4678"
+            stroke-width="25"
+            stroke-linecap="round"
+          />
+
+          <path
+            d="M391 282
+               C427 279 457 255 446 229
+               C438 209 416 207 411 224
+               C408 234 419 241 427 234"
+            fill="none"
+            stroke="url(#aura-cat-fur)"
+            stroke-width="17"
+            stroke-linecap="round"
+          />
+
+          <path
+            d="M422 222 Q419 230 426 234"
+            fill="none"
+            stroke="#d7c9ff"
+            stroke-width="3"
+            stroke-linecap="round"
+          />
+        </g>
+
+        <!-- Back legs -->
+        <g class="aura-cat-loop__back-legs">
+          <path
+            d="M365 290
+               C383 292 398 311 395 327
+               L379 340
+               Q366 342 363 329
+               L347 310 Z"
+            fill="url(#aura-cat-fur)"
+          />
+
+          <path
+            d="M329 301
+               C342 302 352 315 347 328
+               L329 342
+               Q316 342 317 329
+               L310 313 Z"
+            fill="#9185c9"
+          />
+
+          <path
+            d="M369 333 L383 335
+               M321 335 L333 336"
+            fill="none"
+            stroke="#ded4ff"
+            stroke-width="2"
+            stroke-linecap="round"
+          />
+        </g>
+
+        <!-- Body -->
+        <path
+          d="M273 240
+             C293 218 334 219 360 237
+             C385 254 398 275 386 298
+             C373 322 342 328 309 316
+             C278 305 261 281 263 259
+             Q264 247 273 240 Z"
+          fill="url(#aura-cat-fur)"
+          stroke="#504975"
+          stroke-width="2"
+        />
+
+        <!-- Soft belly -->
+        <path
+          d="M303 279
+             C322 267 350 274 364 293
+             C350 313 324 316 304 302
+             C295 296 295 286 303 279 Z"
+          fill="url(#aura-cat-light-fur)"
+          opacity=".9"
+        />
+
+        <!-- Body markings -->
+        <path
+          d="M293 232 L302 247
+             M311 226 L320 241
+             M331 230 L337 243"
+          fill="none"
+          stroke="#ded5ff"
+          stroke-width="4"
+          stroke-linecap="round"
+          opacity=".6"
+        />
+
+        <!-- Reaching front leg -->
+        <g class="aura-cat-loop__reach">
+          <path
+            d="M278 254
+               C260 242 247 224 226 213
+               Q215 207 210 197
+               Q208 190 214 187
+               Q221 185 228 194
+               C246 204 268 213 289 229 Z"
+            fill="url(#aura-cat-fur)"
+            stroke="#5c548e"
+            stroke-width="1.5"
+          />
+
+          <path
+            d="M212 193
+               Q206 187 204 193
+               Q204 201 216 205
+               L226 203
+               L222 195 Z"
+            fill="#e4d9ff"
+          />
+
+          <!-- Paw detail -->
+          <path
+            d="M211 195 L215 199
+               M217 193 L220 198"
+            fill="none"
+            stroke="#a99bd8"
+            stroke-width="1.5"
+            stroke-linecap="round"
+          />
+        </g>
+
+        <!-- Other front leg -->
+        <path
+          d="M300 277
+             C310 283 319 291 318 303
+             L310 316
+             Q299 321 293 312
+             L283 293 Z"
+          fill="#a99de0"
+        />
+
+        <!-- Neck/collar -->
+        <path
+          d="M286 235
+             Q302 252 322 249"
+          fill="none"
+          stroke="#65ddec"
+          stroke-width="8"
+          stroke-linecap="round"
+        />
+
+        <circle
+          cx="311"
+          cy="249"
+          r="5"
+          fill="#ffe19a"
+          stroke="#62588f"
+          stroke-width="1.5"
+        />
+
+        <!-- Head movement -->
+        <g class="aura-cat-loop__head">
+
+          <!-- Ears -->
+          <path
+            d="M232 173
+               L228 124
+               Q228 115 238 121
+               L270 143 Z"
+            fill="url(#aura-cat-fur)"
+            stroke="#5b5485"
+            stroke-width="2"
+          />
+
+          <path
+            d="M237 139 L237 127 L255 145 Z"
+            fill="url(#aura-cat-inner-ear)"
+          />
+
+          <path
+            d="M292 143
+               L318 119
+               Q326 112 327 122
+               L325 170 Z"
+            fill="url(#aura-cat-fur)"
+            stroke="#5b5485"
+            stroke-width="2"
+          />
+
+          <path
+            d="M301 144 L319 127 L316 153 Z"
+            fill="url(#aura-cat-inner-ear)"
+          />
+
+          <!-- Face -->
+          <path
+            d="M230 163
+               C238 140 264 135 286 146
+               C309 157 320 180 310 203
+               C302 227 274 236 250 224
+               C228 213 220 185 230 163 Z"
+            fill="url(#aura-cat-light-fur)"
+            stroke="#786ca9"
+            stroke-width="2"
+          />
+
+          <!-- Forehead stripes -->
+          <path
+            d="M264 146 L269 157
+               M279 146 L282 156
+               M294 152 L295 161"
+            fill="none"
+            stroke="#9789cb"
+            stroke-width="3"
+            stroke-linecap="round"
+          />
+
+          <!-- Eyes -->
+          <g class="aura-cat-loop__eyes">
+            <ellipse
+              cx="254" cy="179"
+              rx="7" ry="10"
+              fill="#554674"
+            />
+            <ellipse
+              cx="255" cy="180"
+              rx="4.3" ry="7"
+              fill="#80dbe5"
+            />
+            <ellipse
+              cx="256" cy="180"
+              rx="2" ry="5"
+              fill="#202236"
+            />
+            <circle cx="257" cy="176" r="1.7" fill="#ffffff"/>
+
+            <ellipse
+              cx="287" cy="179"
+              rx="7" ry="10"
+              fill="#554674"
+            />
+            <ellipse
+              cx="288" cy="180"
+              rx="4.3" ry="7"
+              fill="#80dbe5"
+            />
+            <ellipse
+              cx="289" cy="180"
+              rx="2" ry="5"
+              fill="#202236"
+            />
+            <circle cx="290" cy="176" r="1.7" fill="#ffffff"/>
+          </g>
+
+          <!-- Nose and muzzle -->
+          <path
+            d="M268 194 L276 194 L272 200 Z"
+            fill="#d879a6"
+          />
+
+          <path
+            d="M272 200
+               Q268 207 263 202
+               M272 200
+               Q277 207 282 202"
+            fill="none"
+            stroke="#65577d"
+            stroke-width="1.8"
+            stroke-linecap="round"
+          />
+
+          <!-- Whiskers -->
+          <g
+            fill="none"
+            stroke="#9288b0"
+            stroke-width="1.5"
+            stroke-linecap="round"
+          >
+            <path d="M260 197 L239 192"/>
+            <path d="M260 202 L238 207"/>
+            <path d="M281 197 L302 192"/>
+            <path d="M281 202 L303 207"/>
+          </g>
+
+          <!-- Blush -->
+          <ellipse
+            cx="246" cy="198"
+            rx="7" ry="3.5"
+            fill="#ef9bbd"
+            opacity=".45"
+          />
+
+          <ellipse
+            cx="297" cy="198"
+            rx="7" ry="3.5"
+            fill="#ef9bbd"
+            opacity=".45"
+          />
+
+        </g>
+      </g>
+
+      <!-- Floating tiny bubbles -->
+      <circle
+        class="aura-cat-loop__bubble aura-cat-loop__bubble--one"
+        cx="415" cy="170" r="7"
+        fill="none"
+        stroke="#9eeeff"
+        stroke-width="1.5"
+      />
+
+      <circle
+        class="aura-cat-loop__bubble aura-cat-loop__bubble--two"
+        cx="455" cy="321" r="5"
+        fill="none"
+        stroke="#c8b7ff"
+        stroke-width="1.5"
+      />
+
+      <circle
+        class="aura-cat-loop__bubble aura-cat-loop__bubble--three"
+        cx="202" cy="276" r="4"
+        fill="none"
+        stroke="#ffdc91"
+        stroke-width="1.5"
+      />
+
+    </svg>
+  </div>
+</div>
 
   <footer class="footer">
     <div class="footer-top">
