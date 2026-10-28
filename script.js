@@ -1,5 +1,4 @@
-
-const $ = (selector, parent = document) =>
+ const $ = (selector, parent = document) =>
   parent.querySelector(selector);
 
 const $$ = (selector, parent = document) =>
@@ -456,8 +455,7 @@ if (window.matchMedia("(pointer: fine)").matches && !reduceMotion) {
     const y = (event.clientY - rect.top) / rect.height - 0.5;
 
     heroProduct.style.transform =
-      `translate(calc(-50% + ${x * 16}px), ` +
-      `calc(-50% + ${y * 16}px)) rotate(${x * 7 - 6}deg)`;
+      `translate(calc(-50% + ${x * 16}px), calc(-50% + ${y * 16}px)) rotate(${x * 7 - 6}deg)`;
   });
 
   heroStage.addEventListener("pointerleave", () => {
@@ -496,7 +494,7 @@ if (window.matchMedia("(pointer: fine)").matches && !reduceMotion) {
 
       target.style.setProperty("--parallax-x", `${x * -14}px`);
       target.style.setProperty("--parallax-y", `${y * -14}px`);
-      target.style.setProperty("--parallax-rotate", `${x * 1.5}deg`);
+      target.style.setProperty("--parallax-rotate", `${x * 1.5}deg` );
     });
 
     target.addEventListener("pointerleave", () => {
@@ -595,8 +593,8 @@ function playFlip(sourceImage, targetImage) {
       { transform: "translate(0,0) scale(1,1)" },
       {
         transform:
-          `translate(${end.left - start.left}px,${end.top - start.top}px) ` +
-          `scale(${scaleX},${scaleY})`
+          `translate(${end.left - start.left}px,${end.top - start.top}px)  +
+          scale(${scaleX},${scaleY})`
       }
     ],
     {
@@ -749,3 +747,174 @@ document.addEventListener("visibilitychange", () => {
     document.hidden
   );
 });
+
+(() => {
+  const section = document.querySelector(".message-section");
+  const pin = section?.querySelector(".horizontal-pin");
+  const track = section?.querySelector(".horizontal-track");
+  const panels = [...(section?.querySelectorAll(".message-panel") || [])];
+  const progress = section?.querySelector(".message-progress span");
+
+  if (!section || !pin || !track || !panels.length) return;
+
+  const reduceMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)"
+  ).matches;
+
+  // Create the individual letter blocks.
+  section.querySelectorAll("[data-phrase]").forEach(element => {
+    const phrase = element.dataset.phrase || "";
+    element.replaceChildren();
+
+    phrase.split(" ").forEach((word, wordIndex) => {
+      if (wordIndex > 0) {
+        const space = document.createElement("span");
+        space.className = "word-space";
+        space.setAttribute("aria-hidden", "true");
+        element.appendChild(space);
+      }
+
+      [...word].forEach(character => {
+        const letter = document.createElement("span");
+        letter.className = "letter-box";
+        letter.textContent = character;
+        letter.setAttribute("aria-hidden", "true");
+        element.appendChild(letter);
+      });
+    });
+  });
+
+  // Keep the section readable if GSAP is unavailable
+  // or the visitor prefers reduced motion.
+  function useVerticalLayout() {
+    track.style.width = "100%";
+    track.style.display = "block";
+    track.style.transform = "none";
+
+    pin.style.height = "auto";
+    pin.style.minHeight = "0";
+    pin.style.overflow = "visible";
+
+    panels.forEach(panel => {
+      panel.style.width = "100%";
+      panel.style.minWidth = "0";
+      panel.style.height = "min(80svh, 680px)";
+      panel.style.minHeight = "420px";
+    });
+
+    section.querySelectorAll(".letter-box").forEach(letter => {
+      letter.style.opacity = "1";
+      letter.style.visibility = "visible";
+      letter.style.transform = "none";
+    });
+  }
+
+  if (reduceMotion || !window.gsap || !window.ScrollTrigger) {
+    useVerticalLayout();
+    return;
+  }
+
+  const gsap = window.gsap;
+  const ScrollTrigger = window.ScrollTrigger;
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  // Calculate the distance required to reach the final panel.
+  const getDistance = () =>
+    Math.max(0, track.scrollWidth - pin.clientWidth);
+
+  // Make letters visible by default. Their animations will
+  // take over as the visitor scrolls through the panels.
+  gsap.set(section.querySelectorAll(".letter-box"), {
+    autoAlpha: 1,
+    y: 0,
+    rotateX: 0,
+    scale: 1
+  });
+
+  // Pin the section and convert vertical scrolling to horizontal.
+  const horizontalTween = gsap.to(track, {
+    x: () => -getDistance(),
+    ease: "none",
+
+    scrollTrigger: {
+      trigger: pin,
+      start: "top top",
+      end: () => "+=" + Math.max(getDistance(), window.innerHeight),
+      pin: true,
+      pinSpacing: true,
+      scrub: 0.8,
+      anticipatePin: 1,
+      invalidateOnRefresh: true,
+
+      onUpdate: self => {
+        if (progress) {
+          gsap.set(progress, {
+            scaleX: self.progress
+          });
+        }
+      }
+    }
+  });
+
+  // Animate each panel's letters as that panel slides into view.
+  panels.forEach(panel => {
+    const letters = panel.querySelectorAll(".letter-box");
+    const shape = panel.querySelector(".panel-shape");
+
+    if (letters.length) {
+      gsap.fromTo(
+        letters,
+        {
+          y: 28,
+          rotateX: -35,
+          scale: 0.92,
+          autoAlpha: 0
+        },
+        {
+          y: 0,
+          rotateX: 0,
+          scale: 1,
+          autoAlpha: 1,
+          stagger: 0.025,
+          duration: 0.45,
+          ease: "power2.out",
+
+          scrollTrigger: {
+            trigger: panel,
+            containerAnimation: horizontalTween,
+            start: "left 85%",
+            end: "left 30%",
+            scrub: 0.5,
+            invalidateOnRefresh: true
+          }
+        }
+      );
+    }
+
+    if (shape) {
+      gsap.to(shape, {
+        rotation: 20,
+        ease: "none",
+
+        scrollTrigger: {
+          trigger: panel,
+          containerAnimation: horizontalTween,
+          start: "left right",
+          end: "right left",
+          scrub: 1
+        }
+      });
+    }
+  });
+
+  // Refresh after the browser has calculated the final layout.
+  window.addEventListener("load", () => ScrollTrigger.refresh());
+  window.addEventListener("resize", () => ScrollTrigger.refresh());
+
+  if (document.fonts?.ready) {
+    document.fonts.ready.then(() => ScrollTrigger.refresh());
+  }
+
+  requestAnimationFrame(() => ScrollTrigger.refresh());
+})();
