@@ -918,3 +918,296 @@ document.addEventListener("visibilitychange", () => {
 
   requestAnimationFrame(() => ScrollTrigger.refresh());
 })();
+/* ========================================
+   AURA — GALLERY INTERACTIONS
+======================================== */
+
+(() => {
+  const section = document.querySelector(".aura-design");
+
+  if (!section) return;
+
+  const cards = section.querySelectorAll(".aura-card");
+
+  // Reveal cards as they enter the viewport
+  if ("IntersectionObserver" in window) {
+    section.classList.add("aura-design--motion");
+
+    const observer = new IntersectionObserver(
+      (entries, currentObserver) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            currentObserver.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        threshold: 0.16
+      }
+    );
+
+    cards.forEach((card) => {
+      observer.observe(card);
+    });
+  }
+
+  // Disable mouse tilt on touch screens or reduced-motion devices
+  const supportsTilt =
+    window.matchMedia("(hover: hover) and (pointer: fine)").matches &&
+    !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  if (!supportsTilt) return;
+
+  cards.forEach((card) => {
+    card.addEventListener("pointermove", (event) => {
+      const bounds = card.getBoundingClientRect();
+
+      const x = (event.clientX - bounds.left) / bounds.width;
+      const y = (event.clientY - bounds.top) / bounds.height;
+
+      // Keep the tilt subtle and smooth
+      const rotateY = (x - 0.5) * 8;
+      const rotateX = (0.5 - y) * 8;
+
+      card.style.setProperty("--tilt-x", `${rotateY}deg`);
+      card.style.setProperty("--tilt-y", `${rotateX}deg`);
+    });
+
+    card.addEventListener("pointerleave", () => {
+      card.style.setProperty("--tilt-x", "0deg");
+      card.style.setProperty("--tilt-y", "0deg");
+    });
+  });
+})();
+
+/* =========================================
+   AURA — CHIP CAMERA SCROLL
+========================================= */
+
+(() => {
+  const section = document.querySelector(".aura-chip-journey");
+
+  if (!section) return;
+
+  const productLayer = section.querySelector(
+    ".aura-chip-product-layer"
+  );
+
+  const headphone = section.querySelector(
+    ".aura-chip-headphone"
+  );
+
+  const macroLayer = section.querySelector(
+    ".aura-chip-macro-layer"
+  );
+
+  const macroPlane = section.querySelector(
+    ".aura-chip-macro-plane"
+  );
+
+  const target = section.querySelector(
+    ".aura-chip-target"
+  );
+
+  const opening = section.querySelector(
+    ".aura-chip-opening"
+  );
+
+  const detail = section.querySelector(
+    ".aura-chip-detail"
+  );
+
+  const progressBar = section.querySelector(
+    ".aura-chip-progress span"
+  );
+
+  const stepLabel = section.querySelector(
+    ".aura-chip-step"
+  );
+
+  const reducedMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)"
+  ).matches;
+
+  if (
+    !productLayer ||
+    !headphone ||
+    !macroLayer ||
+    !macroPlane ||
+    !target
+  ) {
+    return;
+  }
+
+  const clamp = (value, min, max) =>
+    Math.min(Math.max(value, min), max);
+
+  // Smooth interpolation between two values.
+  const smoothStep = (start, end, value) => {
+    const t = clamp((value - start) / (end - start), 0, 1);
+
+    return t * t * (3 - 2 * t);
+  };
+
+  let animationFrame = null;
+
+  function updateScene() {
+    animationFrame = null;
+
+    if (reducedMotion) return;
+
+    const rect = section.getBoundingClientRect();
+
+    const scrollDistance =
+      section.offsetHeight - window.innerHeight;
+
+    // Progress from 0 to 1 while scrolling through this section.
+    const progress = scrollDistance > 0
+      ? clamp(-rect.top / scrollDistance, 0, 1)
+      : 0;
+
+    /* 1. ZOOM INTO THE HEADPHONE */
+
+    const headphoneProgress = smoothStep(
+      0,
+      0.61,
+      progress
+    );
+
+    const headphoneScale =
+      1 + headphoneProgress * 3.7;
+
+    headphone.style.setProperty(
+      "--headphone-zoom",
+      headphoneScale
+    );
+
+    /* 2. TRANSITION TO THE CIRCUIT BOARD */
+
+    const macroOpacity = smoothStep(
+      0.36,
+      0.64,
+      progress
+    );
+
+    productLayer.style.opacity = 1 - macroOpacity;
+    macroLayer.style.opacity = macroOpacity;
+
+    /* 3. ZOOM TOWARD THE PROCESSOR */
+
+    const chipProgress = smoothStep(
+      0.47,
+      1,
+      progress
+    );
+
+    const chipScale = 1 + chipProgress * 1.65;
+
+    macroPlane.style.setProperty(
+      "--chip-zoom",
+      chipScale
+    );
+
+    // Move the marked chip toward the centre of the screen.
+    const panX = window.innerWidth * 0.06 * chipProgress;
+    const panY = -window.innerHeight * 0.04 * chipProgress;
+
+    macroPlane.style.setProperty(
+      "--chip-pan-x",
+      `${panX}px`
+    );
+
+    macroPlane.style.setProperty(
+      "--chip-pan-y",
+      `${panY}px`
+    );
+
+    /* 4. INTENSIFY THE CHIP GLOW */
+
+    const glowProgress = smoothStep(
+      0.48,
+      0.76,
+      progress
+    );
+
+    target.style.setProperty(
+      "--chip-target-opacity",
+      glowProgress
+    );
+
+    target.style.setProperty(
+      "--chip-halo-scale",
+      0.65 + glowProgress * 0.8
+    );
+
+    target.style.setProperty(
+      "--chip-glow-blur",
+      `${20 + glowProgress * 65}px`
+    );
+
+    target.style.setProperty(
+      "--chip-glow-alpha",
+      0.2 + glowProgress * 0.65
+    );
+
+    /* 5. CHANGE THE HEADLINE */
+
+    const openingOpacity =
+      1 - smoothStep(0.18, 0.43, progress);
+
+    const detailProgress = smoothStep(
+      0.58,
+      0.79,
+      progress
+    );
+
+    opening.style.setProperty(
+      "--opening-opacity",
+      openingOpacity
+    );
+
+    detail.style.setProperty(
+      "--detail-opacity",
+      detailProgress
+    );
+
+    detail.style.setProperty(
+      "--detail-shift",
+      `${15 * (1 - detailProgress)}px`
+    );
+
+    /* 6. UPDATE THE SCROLL INDICATOR */
+
+    progressBar.style.setProperty(
+      "--scroll-progress",
+      progress
+    );
+
+    if (stepLabel) {
+      if (progress < 0.35) {
+        stepLabel.textContent = "01 — THE HARDWARE";
+      } else if (progress < 0.68) {
+        stepLabel.textContent = "02 — CIRCUIT SYSTEM";
+      } else {
+        stepLabel.textContent = "03 — THE SIGNAL CORE";
+      }
+    }
+  }
+
+  function requestSceneUpdate() {
+    if (animationFrame !== null) return;
+
+    animationFrame = window.requestAnimationFrame(updateScene);
+  }
+
+  window.addEventListener("scroll", requestSceneUpdate, {
+    passive: true
+  });
+
+  window.addEventListener("resize", requestSceneUpdate);
+
+  // Set the correct initial frame.
+  updateScene();
+})();
+
