@@ -918,67 +918,114 @@ document.addEventListener("visibilitychange", () => {
 
   requestAnimationFrame(() => ScrollTrigger.refresh());
 })();
-/* ========================================
-   AURA — GALLERY INTERACTIONS
-======================================== */
+/* ===========================================
+   AURA — COLOUR SHIFT INTERACTION
+=========================================== */
 
 (() => {
-  const section = document.querySelector(".aura-design");
+  const section = document.querySelector(".aura-colors");
 
   if (!section) return;
 
-  const cards = section.querySelectorAll(".aura-card");
+  const stage = section.querySelector("[data-color-stage]");
+  const product = section.querySelector("[data-color-product]");
+  const buttons = section.querySelectorAll("[data-color-option]");
+  const name = section.querySelector("[data-color-name]");
+  const description = section.querySelector("[data-color-description]");
+  const index = section.querySelector("[data-color-index]");
+  const stageName = section.querySelector("[data-stage-name]");
 
-  // Reveal cards as they enter the viewport
-  if ("IntersectionObserver" in window) {
-    section.classList.add("aura-design--motion");
+  if (!stage || !product || !buttons.length) return;
 
-    const observer = new IntersectionObserver(
-      (entries, currentObserver) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("is-visible");
-            currentObserver.unobserve(entry.target);
-          }
-        });
-      },
-      {
-        threshold: 0.16
-      }
-    );
+  let switchTimer;
 
-    cards.forEach((card) => {
-      observer.observe(card);
+  function selectColour(button, animate = true) {
+    const colour = button.dataset.color;
+    const colourName = button.dataset.name;
+    const colourDescription = button.dataset.description;
+
+    if (!colour || !colourName) return;
+
+    // Update the selected palette.
+    section.dataset.color = colour;
+
+    // Update the selected swatch.
+    buttons.forEach((item) => {
+      const active = item === button;
+
+      item.classList.toggle("is-active", active);
+      item.setAttribute("aria-pressed", String(active));
     });
+
+    // Update the product information.
+    name.textContent = colourName;
+    description.textContent = colourDescription;
+    stageName.textContent = colourName.toUpperCase();
+
+    const colourIndex = Array.from(buttons).indexOf(button) + 1;
+    index.textContent =
+      `${String(colourIndex).padStart(2, "0")} / ${String(buttons.length).padStart(2, "0")}`;
+
+    if (!animate) return;
+
+    // Restart the colour-swap animation.
+    clearTimeout(switchTimer);
+
+    stage.classList.remove("is-switching");
+    product.classList.remove("is-switching");
+
+    // Force the browser to restart the animations.
+    void stage.offsetWidth;
+    void product.offsetWidth;
+
+    stage.classList.add("is-switching");
+    product.classList.add("is-switching");
+
+    switchTimer = window.setTimeout(() => {
+      stage.classList.remove("is-switching");
+      product.classList.remove("is-switching");
+    }, 900);
   }
 
-  // Disable mouse tilt on touch screens or reduced-motion devices
-  const supportsTilt =
+  buttons.forEach((button) => {
+    button.addEventListener("click", () => {
+      selectColour(button, true);
+    });
+  });
+
+  // Subtle mouse-controlled 3D tilt.
+  const canTilt =
     window.matchMedia("(hover: hover) and (pointer: fine)").matches &&
     !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  if (!supportsTilt) return;
+  if (canTilt) {
+    stage.addEventListener("pointermove", (event) => {
+      // Avoid changing the tilt during the colour-spin animation.
+      if (product.classList.contains("is-switching")) return;
 
-  cards.forEach((card) => {
-    card.addEventListener("pointermove", (event) => {
-      const bounds = card.getBoundingClientRect();
+      const bounds = stage.getBoundingClientRect();
 
       const x = (event.clientX - bounds.left) / bounds.width;
       const y = (event.clientY - bounds.top) / bounds.height;
 
-      // Keep the tilt subtle and smooth
-      const rotateY = (x - 0.5) * 8;
-      const rotateX = (0.5 - y) * 8;
+      const rotateY = (x - 0.5) * 14;
+      const rotateX = (0.5 - y) * 9;
 
-      card.style.setProperty("--tilt-x", `${rotateY}deg`);
-      card.style.setProperty("--tilt-y", `${rotateX}deg`);
+      product.style.setProperty("--tilt-x", `${rotateY}deg`);
+      product.style.setProperty("--tilt-y", `${rotateX}deg`);
     });
 
-    card.addEventListener("pointerleave", () => {
-      card.style.setProperty("--tilt-x", "0deg");
-      card.style.setProperty("--tilt-y", "0deg");
+    stage.addEventListener("pointerleave", () => {
+      product.style.setProperty("--tilt-x", "-9deg");
+      product.style.setProperty("--tilt-y", "0deg");
     });
-  });
+  }
+
+  // Ensure that the initial state matches the selected swatch.
+  const initialButton =
+    section.querySelector("[data-color-option].is-active") || buttons[0];
+
+  selectColour(initialButton, false);
 })();
 
 /* =========================================

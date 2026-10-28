@@ -1691,550 +1691,732 @@ a:focus-visible,button:focus-visible,summary:focus-visible { outline: 2px solid 
     will-change: auto;
   }
 }
-/* ========================================
-   AURA — ANIME COLOUR GALLERY
-======================================== */
+/* ===========================================
+   AURA — COLOUR SHIFT
+=========================================== */
 
-.aura-design {
-  --aura-ink: #15141d;
-  width: 100%;
-  padding: 110px clamp(20px, 5vw, 80px) 70px;
+@property --hp-band-color {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #292b34;
+}
+
+@property --hp-cup-color {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #15171f;
+}
+
+@property --hp-cup-deep {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #090a0f;
+}
+
+@property --hp-edge-color {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #5e6372;
+}
+
+@property --hp-metal-color {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #7a8396;
+}
+
+@property --hp-shine-color {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #ffffff;
+}
+
+@property --aura-accent {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #9299ff;
+}
+
+/* Section palettes */
+
+.aura-colors {
+  --hp-band-color: #282b35;
+  --hp-cup-color: #181a23;
+  --hp-cup-deep: #090a10;
+  --hp-edge-color: #656b7b;
+  --hp-metal-color: #858fa4;
+  --hp-shine-color: #e2e8f5;
+  --aura-accent: #9299ff;
+
+  padding: 30px clamp(22px, 5vw, 76px) 24px;
   overflow: hidden;
-  background: #f8f6f1;
-  color: var(--aura-ink);
+  color: #171720;
+  background: #f7f5f0;
   font-family: inherit;
+  transition: background-color 0.6s ease;
 }
 
-/* Heading */
-
-.aura-design__heading {
-  max-width: 1200px;
-  margin: 0 auto 48px;
+.aura-colors[data-color="silver"] {
+  --hp-band-color: #b9bec8;
+  --hp-cup-color: #dce0e8;
+  --hp-cup-deep: #737d8d;
+  --hp-edge-color: #777f90;
+  --hp-metal-color: #dce2ec;
+  --hp-shine-color: #ffffff;
+  --aura-accent: #9de9ff;
 }
 
-.aura-design__eyebrow {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 22px;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 2px;
+.aura-colors[data-color="white"] {
+  --hp-band-color: #eff0f3;
+  --hp-cup-color: #e6e8ed;
+  --hp-cup-deep: #a8b0bd;
+  --hp-edge-color: #a5acb9;
+  --hp-metal-color: #cbd0d9;
+  --hp-shine-color: #ffffff;
+  --aura-accent: #d6c7ff;
 }
 
-.aura-design__dot {
-  width: 8px;
-  height: 8px;
-  flex-shrink: 0;
-  border-radius: 50%;
-  background: #7867ff;
-  box-shadow: 0 0 14px #7867ff80;
-}
+/* Top and bottom labels */
 
-.aura-design__heading h2 {
-  margin: 0;
-  font-size: clamp(38px, 6.5vw, 78px);
-  line-height: 0.98;
-  letter-spacing: -0.065em;
-  font-weight: 800;
-}
-
-.aura-design__heading h2 span {
-  display: block;
-  color: #85808e;
-}
-
-.aura-design__heading > p {
-  margin-top: 20px;
-  font-size: 14px;
-  color: #77717d;
-  letter-spacing: 0.2px;
-}
-
-/* Three vertical rectangles */
-
-.aura-gallery {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: clamp(14px, 2vw, 26px);
-  max-width: 1200px;
-  margin: 0 auto;
-  perspective: 1200px;
-}
-
-/* Shared card */
-
-.aura-card {
-  --hp-outline: #10244c;
-  --hp-band: #54cfff;
-  --hp-cup: #249fe7;
-  --hp-inner: #123d85;
-  --hp-highlight: #e5fbff;
-
-  position: relative;
-  isolation: isolate;
-  min-width: 0;
-  aspect-ratio: 0.69;
-  min-height: 450px;
-  overflow: hidden;
-  padding: 23px;
-  border: 1px solid rgb(255 255 255 / 25%);
-  border-radius: 7px;
-  color: #fff;
-  transform-style: preserve-3d;
-  transition:
-    box-shadow 0.35s ease,
-    border-color 0.35s ease,
-    opacity 0.8s ease,
-    transform 0.25s ease;
-
-  background:
-    radial-gradient(
-      circle at 50% 39%,
-      rgb(255 255 255 / 12%),
-      transparent 45%
-    ),
-    linear-gradient(155deg, #2258e8, #101c59 100%);
-}
-
-/* Individual anime-inspired palettes */
-
-.aura-card--blue {
-  --hp-outline: #0a205b;
-  --hp-band: #49c8ff;
-  --hp-cup: #247ce7;
-  --hp-inner: #102d82;
-  --hp-highlight: #e4fcff;
-
-  background:
-    radial-gradient(
-      ellipse at 48% 38%,
-      #4d9dff 0%,
-      transparent 43%
-    ),
-    linear-gradient(145deg, #1648e9 0%, #122d92 55%, #091544 100%);
-}
-
-.aura-card--lilac {
-  --hp-outline: #421b70;
-  --hp-band: #f1baff;
-  --hp-cup: #b77cff;
-  --hp-inner: #6631a1;
-  --hp-highlight: #fff0ff;
-
-  background:
-    radial-gradient(
-      ellipse at 47% 35%,
-      #eea8ff 0%,
-      transparent 43%
-    ),
-    linear-gradient(145deg, #a05bfa 0%, #6234b9 57%, #321553 100%);
-}
-
-.aura-card--coral {
-  --hp-outline: #6b251f;
-  --hp-band: #ffd58a;
-  --hp-cup: #ff775b;
-  --hp-inner: #bb3e42;
-  --hp-highlight: #fff2c9;
-
-  background:
-    radial-gradient(
-      ellipse at 48% 36%,
-      #ffc681 0%,
-      transparent 42%
-    ),
-    linear-gradient(145deg, #ff8b79 0%, #d94e58 57%, #76293e 100%);
-}
-
-/* Painted atmospheric glow */
-
-.aura-card::before {
-  content: "";
-  position: absolute;
-  z-index: -1;
-  width: 95%;
-  aspect-ratio: 1;
-  left: 3%;
-  top: 22%;
-  border: 1px solid rgb(255 255 255 / 25%);
-  border-radius: 46% 54% 62% 38% / 42% 38% 62% 58%;
-  transform: rotate(-24deg);
-  box-shadow:
-    0 0 0 15px rgb(255 255 255 / 4%),
-    0 0 0 34px rgb(255 255 255 / 3%);
-  animation: aura-orbit 18s linear infinite;
-  pointer-events: none;
-}
-
-/* Fine illustrative texture */
-
-.aura-card::after {
-  content: "";
-  position: absolute;
-  z-index: 4;
-  inset: 0;
-  pointer-events: none;
-  opacity: 0.12;
-  background-image:
-    repeating-linear-gradient(
-      115deg,
-      transparent 0,
-      transparent 5px,
-      rgb(255 255 255 / 18%) 5.5px,
-      transparent 6px
-    );
-  mix-blend-mode: soft-light;
-}
-
-.aura-card__top,
-.aura-card__bottom {
-  position: absolute;
-  z-index: 5;
-  left: 23px;
-  right: 23px;
+.aura-colors__header,
+.aura-colors__footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
-}
-
-.aura-card__top {
-  top: 23px;
+  gap: 16px;
+  color: #777581;
   font-size: 9px;
   font-weight: 700;
   letter-spacing: 1.7px;
 }
 
-.aura-card__symbol {
-  font-size: 23px;
-  line-height: 1;
-  opacity: 0.85;
+.aura-colors__footer {
+  max-width: 1350px;
+  margin: 24px auto 0;
+  padding-top: 20px;
+  border-top: 1px solid #dedbd4;
 }
 
-/* Decorative illustration elements */
+/* Main two-column layout */
 
-.aura-card__art {
-  position: absolute;
-  inset: 65px 0 70px;
+.aura-colors__layout {
   display: grid;
-  place-items: center;
-  pointer-events: none;
+  grid-template-columns: minmax(260px, 0.72fr) minmax(0, 1.28fr);
+  align-items: center;
+  gap: clamp(30px, 5vw, 80px);
+  max-width: 1350px;
+  margin: 38px auto 0;
 }
 
-.aura-card__sun {
-  position: absolute;
-  width: 48%;
-  aspect-ratio: 1;
-  top: 15%;
-  left: 26%;
-  border-radius: 50%;
-  background: rgb(255 255 255 / 13%);
-  box-shadow: 0 0 55px rgb(255 255 255 / 14%);
-}
+/* Copy */
 
-.aura-card__brush {
-  position: absolute;
-  height: 12px;
-  border-radius: 100%;
-  background: rgb(255 255 255 / 42%);
-  filter: blur(0.5px);
-}
-
-.aura-card__brush--one {
-  top: 25%;
-  right: 6%;
-  width: 65px;
-  transform: rotate(-49deg);
-}
-
-.aura-card__brush--two {
-  bottom: 20%;
-  left: 8%;
-  width: 48px;
-  height: 7px;
-  transform: rotate(-35deg);
-}
-
-.aura-card__spark {
-  position: absolute;
-  color: #fff;
-  font-size: 25px;
-  text-shadow: 0 0 20px rgb(255 255 255 / 65%);
-}
-
-.aura-card__spark--one {
-  top: 20%;
-  left: 12%;
-  animation: aura-twinkle 2.8s ease-in-out infinite;
-}
-
-.aura-card__spark--two {
-  right: 12%;
-  bottom: 22%;
-  font-size: 19px;
-  animation: aura-twinkle 3.4s ease-in-out infinite reverse;
-}
-
-/* Headphone illustration */
-
-.aura-headphones {
+.aura-colors__copy {
   position: relative;
   z-index: 2;
+  padding: 25px 0;
+}
+
+.aura-colors__eyebrow {
   display: block;
-  width: 112%;
-  max-width: 360px;
-  height: auto;
-  overflow: visible;
-  filter: drop-shadow(0 20px 14px rgb(5 10 35 / 25%));
-  animation: aura-headphone-float 5s ease-in-out infinite;
-}
-
-.aura-card--lilac .aura-headphones {
-  animation-delay: -1.6s;
-}
-
-.aura-card--coral .aura-headphones {
-  animation-delay: -3s;
-}
-
-/* Card footer */
-
-.aura-card__bottom {
-  bottom: 24px;
-  align-items: end;
-  gap: 10px;
-}
-
-.aura-card__finish {
-  display: block;
-  margin-bottom: 9px;
+  margin-bottom: 20px;
+  color: #7064bf;
   font-size: 9px;
-  letter-spacing: 2px;
-  opacity: 0.75;
+  font-weight: 800;
+  letter-spacing: 2.5px;
 }
 
-.aura-card__bottom h3 {
+.aura-colors__copy h2 {
   margin: 0;
-  font-size: clamp(15px, 1.7vw, 23px);
-  line-height: 1.05;
-  letter-spacing: -0.5px;
+  font-size: clamp(45px, 6.1vw, 79px);
+  line-height: 0.91;
+  letter-spacing: -0.075em;
   font-weight: 800;
 }
 
-.aura-card__arrow {
+.aura-colors__copy h2 em {
+  color: #898393;
+  font-weight: 500;
+}
+
+.aura-colors__description {
+  max-width: 320px;
+  margin: 20px 0 34px;
+  color: #777580;
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+/* Swatches */
+
+.aura-colors__selection-label {
+  display: block;
+  margin-bottom: 13px;
+  color: #777581;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+}
+
+.aura-colors__swatches {
   display: grid;
-  width: 35px;
-  height: 35px;
-  flex-shrink: 0;
-  place-items: center;
-  border: 1px solid rgb(255 255 255 / 48%);
-  border-radius: 50%;
-  font-size: 18px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 7px;
+}
+
+.aura-colors__swatch {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 11px;
+  min-width: 0;
+  padding: 13px 11px;
+  border: 1px solid #dfdce0;
+  border-radius: 5px;
+  color: #25232d;
+  background: transparent;
+  font: inherit;
+  cursor: pointer;
+  text-align: left;
   transition:
-    color 0.25s ease,
     background 0.25s ease,
+    border-color 0.25s ease,
     transform 0.25s ease;
 }
 
-.aura-card:hover .aura-card__arrow {
-  color: #17131c;
-  background: #fff;
-  transform: rotate(45deg);
+.aura-colors__swatch:hover {
+  transform: translateY(-3px);
+  border-color: #8c8798;
 }
 
-.aura-card:hover {
-  border-color: rgb(255 255 255 / 65%);
-  box-shadow: 0 20px 55px rgb(25 17 55 / 15%);
+.aura-colors__swatch.is-active {
+  border-color: #27232f;
+  background: #ffffff;
 }
 
-/* Bottom label */
+.aura-colors__swatch-dot {
+  display: block;
+  width: 24px;
+  height: 24px;
+  border: 1px solid #00000018;
+  border-radius: 50%;
+  box-shadow:
+    inset -4px -4px 6px #00000013,
+    inset 2px 2px 4px #ffffff75;
+}
 
-.aura-design__footer {
-  max-width: 1200px;
-  display: flex;
-  justify-content: space-between;
-  gap: 20px;
-  margin: 25px auto 0;
+.swatch-black {
+  background: linear-gradient(135deg, #5e6069, #101117 75%);
+}
+
+.swatch-silver {
+  background: linear-gradient(135deg, #ffffff, #a7adba);
+}
+
+.swatch-white {
+  background: linear-gradient(135deg, #ffffff, #dedfe7);
+}
+
+.aura-colors__swatch-name {
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.aura-colors__swatch-check {
+  position: absolute;
+  top: 11px;
+  right: 10px;
+  color: #77717f;
+  opacity: 0;
+  transform: translate(-3px, 3px);
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
+}
+
+.aura-colors__swatch.is-active .aura-colors__swatch-check {
+  opacity: 1;
+  transform: translate(0, 0);
+}
+
+.aura-colors__swatch:focus-visible {
+  outline: 2px solid #7064bf;
+  outline-offset: 3px;
+}
+
+/* Selected colour info */
+
+.aura-colors__selected-info {
+  margin-top: 25px;
+}
+
+.aura-colors__selected-index {
+  color: #817b8b;
   font-size: 9px;
   font-weight: 700;
+  letter-spacing: 1.5px;
+}
+
+.aura-colors__selected-info h3 {
+  margin: 7px 0;
+  font-size: 19px;
+  letter-spacing: -0.5px;
+}
+
+.aura-colors__selected-info p {
+  max-width: 340px;
+  min-height: 42px;
+  margin: 0;
+  color: #787480;
+  font-size: 11px;
+  line-height: 1.7;
+}
+
+/* Product stage */
+
+.aura-colors__stage {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  place-items: center;
+  min-width: 0;
+  min-height: 530px;
+  aspect-ratio: 1.08;
+  overflow: hidden;
+  border-radius: 7px;
+  color: #ffffff;
+  background:
+    radial-gradient(
+      ellipse at 50% 45%,
+      #30344b 0%,
+      #171925 43%,
+      #090a10 85%
+    );
+  transition: background 0.65s ease;
+}
+
+.aura-colors[data-color="silver"] .aura-colors__stage {
+  background:
+    radial-gradient(
+      ellipse at 50% 45%,
+      #334b5b 0%,
+      #17222e 43%,
+      #090c13 85%
+    );
+}
+
+.aura-colors[data-color="white"] .aura-colors__stage {
+  background:
+    radial-gradient(
+      ellipse at 50% 45%,
+      #504762 0%,
+      #211e30 43%,
+      #0b0a12 85%
+    );
+}
+
+/* Stage labels */
+
+.aura-colors__stage-top,
+.aura-colors__stage-bottom {
+  position: absolute;
+  z-index: 6;
+  left: 23px;
+  right: 23px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  color: #b2b5c5;
+  font-size: 8px;
+  font-weight: 700;
   letter-spacing: 1.4px;
-  color: #89838d;
+  pointer-events: none;
 }
 
-/* Scroll reveal — activated by JavaScript */
+.aura-colors__stage-top {
+  top: 21px;
+}
 
-.aura-design--motion .aura-card {
+.aura-colors__stage-bottom {
+  bottom: 21px;
+}
+
+.aura-colors__status {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.aura-colors__status i {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--aura-accent);
+  box-shadow: 0 0 12px var(--aura-accent);
+}
+
+.aura-colors__stage-name {
+  color: #ffffff;
+  text-align: right;
+}
+
+/* Ambient circles */
+
+.aura-colors__orbit {
+  position: absolute;
+  z-index: 0;
+  top: 50%;
+  left: 50%;
+  width: 75%;
+  aspect-ratio: 1;
+  border: 1px solid rgb(255 255 255 / 14%);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.aura-colors__orbit--one {
+  animation: aura-orbit-one 25s linear infinite;
+}
+
+.aura-colors__orbit--two {
+  width: 58%;
+  border-color: rgb(255 255 255 / 11%);
+  border-style: dashed;
+  animation: aura-orbit-two 35s linear infinite;
+}
+
+/* Glow behind the product */
+
+.aura-colors__light {
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  left: 50%;
+  width: 60%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--aura-accent);
+  opacity: 0.17;
+  filter: blur(65px);
+  transform: translate(-50%, -50%);
+  transition: background 0.7s ease;
+  animation: aura-light-breathe 4s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+
+/* Burst when the colour changes */
+
+.aura-colors__colour-burst {
+  position: absolute;
+  z-index: 4;
+  top: 50%;
+  left: 50%;
+  width: 10px;
+  aspect-ratio: 1;
+  border-radius: 50%;
   opacity: 0;
-  transform: translateY(32px) scale(0.97);
+  background: var(--aura-accent);
+  transform: translate(-50%, -50%) scale(0);
+  pointer-events: none;
 }
 
-.aura-design--motion .aura-card.is-visible {
-  opacity: 1;
+.aura-colors__stage.is-switching .aura-colors__colour-burst {
+  animation: aura-colour-bloom 0.85s ease-out;
+}
+
+/* Floating headphone */
+
+.aura-colors__float {
+  position: relative;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  padding: 48px 5px;
+  animation: aura-product-float 5s ease-in-out infinite;
+}
+
+.aura-colors__product {
+  position: relative;
+  width: min(100%, 570px);
   transform:
-    perspective(1000px)
+    perspective(1100px)
     rotateX(var(--tilt-y, 0deg))
-    rotateY(var(--tilt-x, 0deg));
+    rotateY(var(--tilt-x, -9deg));
+  transform-origin: center;
+  transform-style: preserve-3d;
+  will-change: transform;
 }
 
-.aura-design--motion .aura-card:nth-child(2) {
-  transition-delay: 100ms;
+.aura-colors__headphone {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+  filter:
+    drop-shadow(0 27px 25px rgb(0 0 0 / 34%))
+    drop-shadow(0 0 23px color-mix(in srgb, var(--aura-accent), transparent 84%));
 }
 
-.aura-design--motion .aura-card:nth-child(3) {
-  transition-delay: 200ms;
+/* SVG finish colours */
+
+.hp-headband-edge,
+.hp-cup-edge {
+  stroke: var(--hp-edge-color);
 }
 
-/* Floating and decorative animations */
+.hp-headband {
+  stroke: var(--hp-band-color);
+  transition: stroke 0.65s ease;
+}
 
-@keyframes aura-headphone-float {
+.hp-headband-highlight,
+.hp-cushion-shine,
+.hp-side-highlight {
+  stroke: var(--hp-shine-color);
+  opacity: 0.6;
+  transition: stroke 0.65s ease;
+}
+
+.hp-metal {
+  fill: var(--hp-metal-color);
+  stroke: var(--hp-edge-color);
+  stroke-width: 2;
+  transition:
+    fill 0.65s ease,
+    stroke 0.65s ease;
+}
+
+.hp-hinge {
+  fill: var(--hp-cup-deep);
+  stroke: var(--hp-shine-color);
+  stroke-width: 2;
+}
+
+.hp-cup {
+  fill: var(--hp-cup-color);
+  transition: fill 0.65s ease;
+}
+
+.hp-cup-edge {
+  fill: var(--hp-cup-deep);
+  stroke-width: 4;
+  transition:
+    fill 0.65s ease,
+    stroke 0.65s ease;
+}
+
+.hp-cup-sheen {
+  fill: url(#aura-cup-sheen);
+  pointer-events: none;
+}
+
+.hp-cushion {
+  fill: var(--hp-cup-deep);
+  stroke: var(--hp-edge-color);
+  stroke-width: 1.5;
+  transition:
+    fill 0.65s ease,
+    stroke 0.65s ease;
+}
+
+.hp-detail-line {
+  stroke: var(--hp-shine-color);
+  opacity: 0.55;
+}
+
+.hp-logo {
+  fill: var(--hp-shine-color);
+  filter: drop-shadow(0 0 8px var(--aura-accent));
+  transition: fill 0.65s ease;
+}
+
+/* 3D spin during colour change */
+
+.aura-colors__product.is-switching {
+  animation: aura-product-turn 0.85s cubic-bezier(.19,.75,.25,1);
+}
+
+.aura-colors__stage.is-switching .aura-colors__light {
+  animation: aura-light-flash 0.85s ease-out;
+}
+
+/* Keyframes */
+
+@keyframes aura-product-float {
   0%, 100% {
-    transform: translateY(5px) rotate(-7deg);
+    translate: 0 5px;
   }
 
   50% {
-    transform: translateY(-13px) rotate(-3deg);
+    translate: 0 -13px;
   }
 }
 
-@keyframes aura-orbit {
-  from {
-    rotate: 0deg;
-  }
-
+@keyframes aura-orbit-one {
   to {
     rotate: 360deg;
   }
 }
 
-@keyframes aura-twinkle {
-  0%, 100% {
-    opacity: 0.55;
-    scale: 0.85;
-  }
-
-  50% {
-    opacity: 1;
-    scale: 1.2;
+@keyframes aura-orbit-two {
+  to {
+    rotate: -360deg;
   }
 }
 
-/* Tablet */
+@keyframes aura-light-breathe {
+  from {
+    opacity: 0.12;
+    scale: 0.9;
+  }
+
+  to {
+    opacity: 0.24;
+    scale: 1.1;
+  }
+}
+
+@keyframes aura-product-turn {
+  0% {
+    transform: perspective(1100px) rotateY(-9deg) scale(1);
+  }
+
+  38% {
+    transform: perspective(1100px) rotateY(165deg) scale(0.88);
+  }
+
+  72% {
+    transform: perspective(1100px) rotateY(290deg) scale(0.94);
+  }
+
+  100% {
+    transform: perspective(1100px) rotateY(351deg) scale(1);
+  }
+}
+
+@keyframes aura-colour-bloom {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0);
+  }
+
+  20% {
+    opacity: 0.4;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(95);
+  }
+}
+
+@keyframes aura-light-flash {
+  0%, 100% {
+    opacity: 0.17;
+  }
+
+  45% {
+    opacity: 0.45;
+  }
+}
+
+/* Responsive */
 
 @media (max-width: 900px) {
-  .aura-design {
-    padding: 85px 25px 50px;
+  .aura-colors__layout {
+    grid-template-columns: 1fr;
+    gap: 25px;
+    margin-top: 30px;
   }
 
-  .aura-gallery {
-    gap: 14px;
+  .aura-colors__copy {
+    padding: 5px 0;
   }
 
-  .aura-card {
-    min-height: 380px;
-    padding: 15px;
+  .aura-colors__copy h2 {
+    font-size: clamp(48px, 9vw, 75px);
   }
 
-  .aura-card__top,
-  .aura-card__bottom {
-    left: 15px;
-    right: 15px;
+  .aura-colors__description {
+    margin-bottom: 25px;
   }
 
-  .aura-card__top {
-    top: 17px;
-    font-size: 8px;
-    letter-spacing: 1px;
+  .aura-colors__selected-info {
+    margin-top: 18px;
   }
 
-  .aura-card__bottom {
-    bottom: 17px;
+  .aura-colors__stage {
+    min-height: 0;
+    width: 100%;
+    aspect-ratio: 1.08;
   }
 
-  .aura-card__bottom h3 {
-    font-size: 15px;
-  }
-
-  .aura-card__arrow {
-    width: 28px;
-    height: 28px;
+  .aura-colors__product {
+    width: min(92%, 560px);
   }
 }
 
-/* Mobile */
-
-@media (max-width: 600px) {
-  .aura-design {
-    padding: 70px 19px 40px;
+@media (max-width: 520px) {
+  .aura-colors {
+    padding: 22px 18px;
   }
 
-  .aura-design__heading {
-    margin-bottom: 30px;
+  .aura-colors__header,
+  .aura-colors__footer {
+    font-size: 7px;
+    letter-spacing: 0.7px;
   }
 
-  .aura-gallery {
-    grid-template-columns: 1fr;
-    gap: 19px;
-    max-width: 420px;
+  .aura-colors__edition {
+    text-align: right;
   }
 
-  .aura-card {
-    width: 100%;
-    min-height: 0;
-    aspect-ratio: 0.82;
-    padding: 22px;
+  .aura-colors__copy h2 {
+    font-size: 53px;
   }
 
-  .aura-card__top,
-  .aura-card__bottom {
-    left: 22px;
-    right: 22px;
+  .aura-colors__swatch {
+    padding: 11px 8px;
+    gap: 9px;
   }
 
-  .aura-card__top {
-    top: 22px;
+  .aura-colors__swatch-name {
     font-size: 9px;
   }
 
-  .aura-card__bottom {
-    bottom: 22px;
+  .aura-colors__stage-top,
+  .aura-colors__stage-bottom {
+    left: 13px;
+    right: 13px;
+    font-size: 7px;
+    letter-spacing: 0.6px;
   }
 
-  .aura-card__bottom h3 {
-    font-size: 22px;
+  .aura-colors__product {
+    width: 108%;
   }
 
-  .aura-card__arrow {
-    width: 35px;
-    height: 35px;
-  }
-
-  .aura-headphones {
-    width: 100%;
-    max-width: 340px;
-  }
-
-  .aura-design__footer {
-    flex-direction: column;
-    gap: 8px;
-    margin-top: 23px;
-    font-size: 8px;
+  .aura-colors__stage-bottom {
+    bottom: 15px;
   }
 }
 
-/* Accessibility */
+/* Reduced motion support */
 
 @media (prefers-reduced-motion: reduce) {
-  .aura-headphones,
-  .aura-card::before,
-  .aura-card__spark {
+  .aura-colors__float,
+  .aura-colors__orbit,
+  .aura-colors__light {
     animation: none !important;
   }
 
-  .aura-design--motion .aura-card,
-  .aura-design--motion .aura-card.is-visible {
-    opacity: 1 !important;
-    transform: none !important;
-    transition: none !important;
+  .aura-colors__product.is-switching,
+  .aura-colors__stage.is-switching .aura-colors__colour-burst {
+    animation: none !important;
   }
 }
 

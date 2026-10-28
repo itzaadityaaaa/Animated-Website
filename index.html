@@ -162,447 +162,373 @@
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-<!-- AURA — ANIME HEADPHONE GALLERY -->
-<section class="aura-design" id="design">
 
-  <div class="aura-design__heading">
-    <span class="aura-design__eyebrow">
-      <span class="aura-design__dot"></span>
-      01 — THE COLOUR STUDY
-    </span>
+<!-- AURA — THE COLOUR SHIFT -->
+<section class="aura-colors" id="colors" data-color="midnight">
 
-    <h2>
-      Available in
-      <span>Three shades.</span>
-    </h2>
-
-    <p>Each shade tells a different story.</p>
+  <div class="aura-colors__header">
+    <span>03 — FIND YOUR AURA</span>
+    <span class="aura-colors__edition">THE COLOUR COLLECTION / 2026</span>
   </div>
 
-  <div class="aura-gallery">
+  <div class="aura-colors__layout">
 
-    <!-- BLUE HEADPHONES -->
-    <article class="aura-card aura-card--blue">
+    <!-- Left: copy and colour selector -->
+    <div class="aura-colors__copy">
 
-      <div class="aura-card__top">
-        <span>1</span>
-        <span class="aura-card__symbol">✳</span>
-      </div>
+      <span class="aura-colors__eyebrow">
+        YOUR SOUND. YOUR STYLE.
+      </span>
 
-      <div class="aura-card__art" aria-hidden="true">
+      <h2>
+        Pick your<br>
+        <em>frequency.</em>
+      </h2>
 
-        <span class="aura-card__sun"></span>
-        <span class="aura-card__brush aura-card__brush--one"></span>
-        <span class="aura-card__brush aura-card__brush--two"></span>
-        <span class="aura-card__spark aura-card__spark--one">✦</span>
-        <span class="aura-card__spark aura-card__spark--two">✳</span>
+      <p class="aura-colors__description">
+        Every colour has its own character.
+        Find the one that feels like you.
+      </p>
 
-        <svg class="aura-headphones"
-             viewBox="0 0 320 340"
-             role="img"
-             aria-label="Illustrated blue over-ear headphones">
+      <div class="aura-colors__selection">
+        <span class="aura-colors__selection-label">
+          SELECT YOUR FINISH
+        </span>
 
-          <!-- Ground shadow -->
-          <ellipse cx="160" cy="297" rx="86" ry="14"
-                   fill="#071748" opacity=".32"/>
+        <div class="aura-colors__swatches">
 
-          <!-- Headband outline -->
-          <path
-            d="M 87 179 V 131
-               C 87 66 119 31 160 31
-               C 201 31 233 66 233 131
-               V 179"
-            fill="none"
-            stroke="var(--hp-outline)"
-            stroke-width="36"
-            stroke-linecap="round"/>
+          <button
+            class="aura-colors__swatch is-active"
+            type="button"
+            data-color-option
+            data-color="midnight"
+            data-name="Midnight Black"
+            data-description="Quiet confidence. A deep black finish with subtle metallic highlights."
+            aria-pressed="true"
+          >
+            <span class="aura-colors__swatch-dot swatch-black"></span>
+            <span class="aura-colors__swatch-name">Black</span>
+            <span class="aura-colors__swatch-check">↗</span>
+          </button>
 
-          <!-- Headband colour -->
-          <path
-            d="M 87 179 V 131
-               C 87 66 119 31 160 31
-               C 201 31 233 66 233 131
-               V 179"
-            fill="none"
-            stroke="var(--hp-band)"
-            stroke-width="25"
-            stroke-linecap="round"/>
+          <button
+            class="aura-colors__swatch"
+            type="button"
+            data-color-option
+            data-color="silver"
+            data-name="Lunar Silver"
+            data-description="Clean lines. A cool silver finish with a refined satin sheen."
+            aria-pressed="false"
+          >
+            <span class="aura-colors__swatch-dot swatch-silver"></span>
+            <span class="aura-colors__swatch-name">Silver</span>
+            <span class="aura-colors__swatch-check">↗</span>
+          </button>
 
-          <!-- Hand-painted highlight -->
-          <path
-            d="M 112 78 C 124 51 143 43 160 43"
-            fill="none"
-            stroke="var(--hp-highlight)"
-            stroke-width="5"
-            stroke-linecap="round"/>
+          <button
+            class="aura-colors__swatch"
+            type="button"
+            data-color-option
+            data-color="white"
+            data-name="Cloud White"
+            data-description="Light, minimal, timeless. A soft white finish with polished details."
+            aria-pressed="false"
+          >
+            <span class="aura-colors__swatch-dot swatch-white"></span>
+            <span class="aura-colors__swatch-name">White</span>
+            <span class="aura-colors__swatch-check">↗</span>
+          </button>
 
-          <!-- Left headphone cup -->
-          <path
-            d="M 91 148
-               C 72 138 54 151 51 172
-               L 45 222
-               C 42 244 57 258 77 252
-               L 99 244
-               L 103 164 Z"
-            fill="var(--hp-cup)"
-            stroke="var(--hp-outline)"
-            stroke-width="7"
-            stroke-linejoin="round"/>
-
-          <!-- Right headphone cup -->
-          <path
-            d="M 229 148
-               C 248 138 266 151 269 172
-               L 275 222
-               C 278 244 263 258 243 252
-               L 221 244
-               L 217 164 Z"
-            fill="var(--hp-cup)"
-            stroke="var(--hp-outline)"
-            stroke-width="7"
-            stroke-linejoin="round"/>
-
-          <!-- Left ear cushion -->
-          <path
-            d="M 76 163
-               C 65 166 63 181 61 198
-               L 58 225
-               C 57 235 64 241 75 237
-               L 87 232
-               L 91 168 Z"
-            fill="var(--hp-inner)"
-            stroke="var(--hp-highlight)"
-            stroke-width="3"/>
-
-          <!-- Right ear cushion -->
-          <path
-            d="M 244 163
-               C 255 166 257 181 259 198
-               L 262 225
-               C 263 235 256 241 245 237
-               L 233 232
-               L 229 168 Z"
-            fill="var(--hp-inner)"
-            stroke="var(--hp-highlight)"
-            stroke-width="3"/>
-
-          <!-- Cup highlights -->
-          <path
-            d="M 62 176 L 58 214
-               M 258 176 L 262 214"
-            fill="none"
-            stroke="var(--hp-highlight)"
-            stroke-width="4"
-            stroke-linecap="round"/>
-
-          <!-- Side hinges -->
-          <circle cx="96" cy="162" r="10"
-                  fill="var(--hp-highlight)"
-                  stroke="var(--hp-outline)" stroke-width="4"/>
-
-          <circle cx="224" cy="162" r="10"
-                  fill="var(--hp-highlight)"
-                  stroke="var(--hp-outline)" stroke-width="4"/>
-
-          <!-- Decorative details -->
-          <path
-            d="M 119 92 C 133 69 147 64 160 64"
-            fill="none"
-            stroke="var(--hp-highlight)"
-            stroke-width="3"
-            stroke-linecap="round"
-            opacity=".9"/>
-
-          <path
-            d="M 86 271 L 101 263
-               M 234 271 L 219 263"
-            fill="none"
-            stroke="var(--hp-highlight)"
-            stroke-width="4"
-            stroke-linecap="round"/>
-
-        </svg>
-      </div>
-
-      <div class="aura-card__bottom">
-        <div>
-          <span class="aura-card__finish">01 / MIDNIGHT</span>
-          <h3>NEBULA BLUE</h3>
         </div>
-
-        <span class="aura-card__arrow">↗</span>
       </div>
 
-    </article>
+      <div class="aura-colors__selected-info" aria-live="polite">
+        <span class="aura-colors__selected-index" data-color-index>
+          01 / 03
+        </span>
 
+        <h3 data-color-name>Midnight Black</h3>
 
-    <!-- PURPLE HEADPHONES -->
-    <article class="aura-card aura-card--lilac">
-
-      <div class="aura-card__top">
-        <span>2</span>
-        <span class="aura-card__symbol">✳</span>
+        <p data-color-description>
+          Quiet confidence. A deep black finish with subtle metallic highlights.
+        </p>
       </div>
 
-      <div class="aura-card__art" aria-hidden="true">
+    </div>
 
-        <span class="aura-card__sun"></span>
-        <span class="aura-card__brush aura-card__brush--one"></span>
-        <span class="aura-card__brush aura-card__brush--two"></span>
-        <span class="aura-card__spark aura-card__spark--one">✦</span>
-        <span class="aura-card__spark aura-card__spark--two">✳</span>
+    <!-- Right: animated product stage -->
+    <div class="aura-colors__stage" data-color-stage>
 
-        <svg class="aura-headphones"
-             viewBox="0 0 320 340"
-             role="img"
-             aria-label="Illustrated lavender over-ear headphones">
-
-          <ellipse cx="160" cy="297" rx="86" ry="14"
-                   fill="#321052" opacity=".30"/>
-
-          <path
-            d="M 87 179 V 131
-               C 87 66 119 31 160 31
-               C 201 31 233 66 233 131
-               V 179"
-            fill="none"
-            stroke="var(--hp-outline)"
-            stroke-width="36"
-            stroke-linecap="round"/>
-
-          <path
-            d="M 87 179 V 131
-               C 87 66 119 31 160 31
-               C 201 31 233 66 233 131
-               V 179"
-            fill="none"
-            stroke="var(--hp-band)"
-            stroke-width="25"
-            stroke-linecap="round"/>
-
-          <path
-            d="M 112 78 C 124 51 143 43 160 43"
-            fill="none"
-            stroke="var(--hp-highlight)"
-            stroke-width="5"
-            stroke-linecap="round"/>
-
-          <path
-            d="M 91 148 C 72 138 54 151 51 172
-               L 45 222 C 42 244 57 258 77 252
-               L 99 244 L 103 164 Z"
-            fill="var(--hp-cup)"
-            stroke="var(--hp-outline)"
-            stroke-width="7"
-            stroke-linejoin="round"/>
-
-          <path
-            d="M 229 148 C 248 138 266 151 269 172
-               L 275 222 C 278 244 263 258 243 252
-               L 221 244 L 217 164 Z"
-            fill="var(--hp-cup)"
-            stroke="var(--hp-outline)"
-            stroke-width="7"
-            stroke-linejoin="round"/>
-
-          <path
-            d="M 76 163 C 65 166 63 181 61 198
-               L 58 225 C 57 235 64 241 75 237
-               L 87 232 L 91 168 Z"
-            fill="var(--hp-inner)"
-            stroke="var(--hp-highlight)"
-            stroke-width="3"/>
-
-          <path
-            d="M 244 163 C 255 166 257 181 259 198
-               L 262 225 C 263 235 256 241 245 237
-               L 233 232 L 229 168 Z"
-            fill="var(--hp-inner)"
-            stroke="var(--hp-highlight)"
-            stroke-width="3"/>
-
-          <path
-            d="M 62 176 L 58 214
-               M 258 176 L 262 214"
-            fill="none"
-            stroke="var(--hp-highlight)"
-            stroke-width="4"
-            stroke-linecap="round"/>
-
-          <circle cx="96" cy="162" r="10"
-                  fill="var(--hp-highlight)"
-                  stroke="var(--hp-outline)" stroke-width="4"/>
-
-          <circle cx="224" cy="162" r="10"
-                  fill="var(--hp-highlight)"
-                  stroke="var(--hp-outline)" stroke-width="4"/>
-
-          <path
-            d="M 119 92 C 133 69 147 64 160 64"
-            fill="none"
-            stroke="var(--hp-highlight)"
-            stroke-width="3"
-            stroke-linecap="round"/>
-
-          <path
-            d="M 86 271 L 101 263
-               M 234 271 L 219 263"
-            fill="none"
-            stroke="var(--hp-highlight)"
-            stroke-width="4"
-            stroke-linecap="round"/>
-
-        </svg>
+      <div class="aura-colors__stage-top">
+        <span>AURA® / STUDIO SERIES</span>
+        <span class="aura-colors__status">
+          <i></i> FINISH PREVIEW
+        </span>
       </div>
 
-      <div class="aura-card__bottom">
-        <div>
-          <span class="aura-card__finish">02 / DAYDREAM</span>
-          <h3>LAVENDER HAZE</h3>
+      <div class="aura-colors__orbit aura-colors__orbit--one"></div>
+      <div class="aura-colors__orbit aura-colors__orbit--two"></div>
+
+      <div class="aura-colors__light"></div>
+
+      <!-- Animated colour transition -->
+      <div class="aura-colors__colour-burst"></div>
+
+      <!-- Headphones -->
+      <div class="aura-colors__float">
+
+        <div class="aura-colors__product" data-color-product>
+
+          <svg
+            class="aura-colors__headphone"
+            viewBox="0 0 480 420"
+            xmlns="http://www.w3.org/2000/svg"
+            role="img"
+            aria-label="AURA over-ear headphones in the selected colour"
+          >
+            <defs>
+              <linearGradient id="aura-cup-sheen"
+                x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#ffffff" stop-opacity=".42"/>
+                <stop offset="35%" stop-color="#ffffff" stop-opacity=".05"/>
+                <stop offset="100%" stop-color="#000000" stop-opacity=".25"/>
+              </linearGradient>
+
+              <linearGradient id="aura-pad-shade"
+                x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stop-color="#000000" stop-opacity=".32"/>
+                <stop offset="50%" stop-color="#ffffff" stop-opacity=".05"/>
+                <stop offset="100%" stop-color="#000000" stop-opacity=".42"/>
+              </linearGradient>
+
+              <filter id="aura-product-shadow"
+                x="-50%" y="-50%" width="200%" height="200%">
+                <feGaussianBlur stdDeviation="10"/>
+              </filter>
+            </defs>
+
+            <!-- Ground shadow -->
+            <ellipse
+              cx="240" cy="359"
+              rx="126" ry="19"
+              fill="#000000"
+              opacity=".35"
+              filter="url(#aura-product-shadow)"
+            />
+
+            <!-- Headband outer shell -->
+            <path
+              class="hp-headband-edge"
+              d="M 120 193
+                 V 144
+                 C 120 68 167 30 240 30
+                 C 313 30 360 68 360 144
+                 V 193"
+              fill="none"
+              stroke-width="39"
+              stroke-linecap="round"
+            />
+
+            <!-- Headband finish -->
+            <path
+              class="hp-headband"
+              d="M 120 193
+                 V 144
+                 C 120 68 167 30 240 30
+                 C 313 30 360 68 360 144
+                 V 193"
+              fill="none"
+              stroke-width="27"
+              stroke-linecap="round"
+            />
+
+            <!-- Headband highlight -->
+            <path
+              class="hp-headband-highlight"
+              d="M 143 122
+                 C 148 76 189 49 224 48"
+              fill="none"
+              stroke-width="4"
+              stroke-linecap="round"
+            />
+
+            <!-- Left hinge -->
+            <rect
+              class="hp-metal"
+              x="105" y="163"
+              width="40" height="51"
+              rx="12"
+            />
+
+            <circle
+              class="hp-hinge"
+              cx="125" cy="188"
+              r="8"
+            />
+
+            <!-- Right hinge -->
+            <rect
+              class="hp-metal"
+              x="335" y="163"
+              width="40" height="51"
+              rx="12"
+            />
+
+            <circle
+              class="hp-hinge"
+              cx="355" cy="188"
+              r="8"
+            />
+
+            <!-- Left outer ear cup -->
+            <path
+              class="hp-cup-edge"
+              d="M 116 167
+                 C 91 157 70 175 67 205
+                 L 62 269
+                 C 60 298 81 314 107 303
+                 L 143 287
+                 L 146 188 Z"
+            />
+
+            <path
+              class="hp-cup"
+              d="M 115 180
+                 C 94 171 81 188 78 209
+                 L 73 266
+                 C 71 287 86 301 107 292
+                 L 130 280
+                 L 133 192 Z"
+            />
+
+            <path
+              class="hp-cup-sheen"
+              d="M 115 180
+                 C 94 171 81 188 78 209
+                 L 73 266
+                 C 71 287 86 301 107 292
+                 L 130 280
+                 L 133 192 Z"
+            />
+
+            <!-- Left cushion -->
+            <path
+              class="hp-cushion"
+              d="M 93 198
+                 C 83 204 81 222 80 240
+                 L 77 269
+                 C 76 282 84 289 96 284
+                 L 108 279
+                 L 116 203 Z"
+            />
+
+            <path
+              class="hp-cushion-shine"
+              d="M 93 207 L 88 264"
+              fill="none"
+              stroke-width="4"
+              stroke-linecap="round"
+            />
+
+            <!-- Right outer ear cup -->
+            <path
+              class="hp-cup-edge"
+              d="M 364 167
+                 C 389 157 410 175 413 205
+                 L 418 269
+                 C 420 298 399 314 373 303
+                 L 337 287
+                 L 334 188 Z"
+            />
+
+            <path
+              class="hp-cup"
+              d="M 365 180
+                 C 386 171 399 188 402 209
+                 L 407 266
+                 C 409 287 394 301 373 292
+                 L 350 280
+                 L 347 192 Z"
+            />
+
+            <path
+              class="hp-cup-sheen"
+              d="M 365 180
+                 C 386 171 399 188 402 209
+                 L 407 266
+                 C 409 287 394 301 373 292
+                 L 350 280
+                 L 347 192 Z"
+            />
+
+            <!-- Right cushion -->
+            <path
+              class="hp-cushion"
+              d="M 387 198
+                 C 397 204 399 222 400 240
+                 L 403 269
+                 C 404 282 396 289 384 284
+                 L 372 279
+                 L 364 203 Z"
+            />
+
+            <path
+              class="hp-cushion-shine"
+              d="M 387 207 L 392 264"
+              fill="none"
+              stroke-width="4"
+              stroke-linecap="round"
+            />
+
+            <!-- Side seams -->
+            <path
+              class="hp-detail-line"
+              d="M 112 220 L 107 266
+                 M 368 220 L 373 266"
+              fill="none"
+              stroke-width="3"
+              stroke-linecap="round"
+            />
+
+            <!-- Small signature mark -->
+            <path
+              class="hp-logo"
+              d="M 240 68
+                 L 247 83
+                 L 263 90
+                 L 247 97
+                 L 240 113
+                 L 233 97
+                 L 217 90
+                 L 233 83 Z"
+            />
+
+            <!-- Tiny outer cup highlight -->
+            <path
+              class="hp-side-highlight"
+              d="M 84 211 L 80 248
+                 M 396 211 L 400 248"
+              fill="none"
+              stroke-width="3"
+              stroke-linecap="round"
+            />
+
+          </svg>
+
         </div>
-
-        <span class="aura-card__arrow">↗</span>
       </div>
 
-    </article>
-
-
-    <!-- CORAL HEADPHONES -->
-    <article class="aura-card aura-card--coral">
-
-      <div class="aura-card__top">
-        <span>3</span>
-        <span class="aura-card__symbol">✳</span>
+      <div class="aura-colors__stage-bottom">
+        <span>01 / MATERIAL STUDY</span>
+        <span class="aura-colors__stage-name" data-stage-name>
+          MIDNIGHT BLACK
+        </span>
       </div>
 
-      <div class="aura-card__art" aria-hidden="true">
-
-        <span class="aura-card__sun"></span>
-        <span class="aura-card__brush aura-card__brush--one"></span>
-        <span class="aura-card__brush aura-card__brush--two"></span>
-        <span class="aura-card__spark aura-card__spark--one">✦</span>
-        <span class="aura-card__spark aura-card__spark--two">✳</span>
-
-        <svg class="aura-headphones"
-             viewBox="0 0 320 340"
-             role="img"
-             aria-label="Illustrated coral over-ear headphones">
-
-          <ellipse cx="160" cy="297" rx="86" ry="14"
-                   fill="#642014" opacity=".30"/>
-
-          <path
-            d="M 87 179 V 131
-               C 87 66 119 31 160 31
-               C 201 31 233 66 233 131
-               V 179"
-            fill="none"
-            stroke="var(--hp-outline)"
-            stroke-width="36"
-            stroke-linecap="round"/>
-
-          <path
-            d="M 87 179 V 131
-               C 87 66 119 31 160 31
-               C 201 31 233 66 233 131
-               V 179"
-            fill="none"
-            stroke="var(--hp-band)"
-            stroke-width="25"
-            stroke-linecap="round"/>
-
-          <path
-            d="M 112 78 C 124 51 143 43 160 43"
-            fill="none"
-            stroke="var(--hp-highlight)"
-            stroke-width="5"
-            stroke-linecap="round"/>
-
-          <path
-            d="M 91 148 C 72 138 54 151 51 172
-               L 45 222 C 42 244 57 258 77 252
-               L 99 244 L 103 164 Z"
-            fill="var(--hp-cup)"
-            stroke="var(--hp-outline)"
-            stroke-width="7"
-            stroke-linejoin="round"/>
-
-          <path
-            d="M 229 148 C 248 138 266 151 269 172
-               L 275 222 C 278 244 263 258 243 252
-               L 221 244 L 217 164 Z"
-            fill="var(--hp-cup)"
-            stroke="var(--hp-outline)"
-            stroke-width="7"
-            stroke-linejoin="round"/>
-
-          <path
-            d="M 76 163 C 65 166 63 181 61 198
-               L 58 225 C 57 235 64 241 75 237
-               L 87 232 L 91 168 Z"
-            fill="var(--hp-inner)"
-            stroke="var(--hp-highlight)"
-            stroke-width="3"/>
-
-          <path
-            d="M 244 163 C 255 166 257 181 259 198
-               L 262 225 C 263 235 256 241 245 237
-               L 233 232 L 229 168 Z"
-            fill="var(--hp-inner)"
-            stroke="var(--hp-highlight)"
-            stroke-width="3"/>
-
-          <path
-            d="M 62 176 L 58 214
-               M 258 176 L 262 214"
-            fill="none"
-            stroke="var(--hp-highlight)"
-            stroke-width="4"
-            stroke-linecap="round"/>
-
-          <circle cx="96" cy="162" r="10"
-                  fill="var(--hp-highlight)"
-                  stroke="var(--hp-outline)" stroke-width="4"/>
-
-          <circle cx="224" cy="162" r="10"
-                  fill="var(--hp-highlight)"
-                  stroke="var(--hp-outline)" stroke-width="4"/>
-
-          <path
-            d="M 119 92 C 133 69 147 64 160 64"
-            fill="none"
-            stroke="var(--hp-highlight)"
-            stroke-width="3"
-            stroke-linecap="round"/>
-
-          <path
-            d="M 86 271 L 101 263
-               M 234 271 L 219 263"
-            fill="none"
-            stroke="var(--hp-highlight)"
-            stroke-width="4"
-            stroke-linecap="round"/>
-
-        </svg>
-      </div>
-
-      <div class="aura-card__bottom">
-        <div>
-          <span class="aura-card__finish">03 / SUNSET</span>
-          <h3>SOLAR FLARE</h3>
-        </div>
-
-        <span class="aura-card__arrow">↗</span>
-      </div>
-
-    </article>
+    </div>
 
   </div>
 
-  <div class="aura-design__footer">
-    <span>DESIGNED TO FEEL DIFFERENT.</span>
-    <span>AURA® — OBJECTS FOR YOUR OWN WORLD</span>
-  </div>
 
 </section>
 
