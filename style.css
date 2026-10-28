@@ -3536,3 +3536,350 @@ a:focus-visible,button:focus-visible,summary:focus-visible { outline: 2px solid 
     transform: none !important;
   }
 }
+
+/* =========================================
+   AURA — EXPLODED PRODUCT ANIMATION
+========================================= */
+
+.aura-explode {
+  position: relative;
+  height: 270vh;
+  height: 270svh;
+  color: #f5f5fb;
+  background: #080910;
+  font-family: inherit;
+}
+
+.aura-explode__stage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100svh;
+  min-height: 520px;
+  overflow: hidden;
+  isolation: isolate;
+  background:
+    radial-gradient(
+      ellipse at 55% 50%,
+      #202238 0%,
+      #121420 45%,
+      #080910 100%
+    );
+}
+
+.aura-explode__stage::after {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      ellipse at center,
+      transparent 32%,
+      rgb(4 5 11 / 42%) 100%
+    );
+}
+
+.aura-explode__canvas {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+}
+
+.aura-explode__canvas canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* Header */
+
+.aura-explode__header {
+  position: absolute;
+  z-index: 5;
+  top: 27px;
+  left: clamp(20px, 5vw, 75px);
+  right: clamp(20px, 5vw, 75px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  color: #acb0c3;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1.7px;
+  pointer-events: none;
+}
+
+.aura-explode__status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.aura-explode__status i {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #83eaff;
+  box-shadow: 0 0 12px #83eaff;
+}
+
+/* Heading */
+
+.aura-explode__intro {
+  position: absolute;
+  z-index: 4;
+  top: 18%;
+  left: clamp(22px, 6vw, 88px);
+  width: min(390px, 37vw);
+  pointer-events: none;
+  will-change: opacity, transform;
+  opacity: var(--explode-intro-opacity, 1);
+  transform: translateY(var(--explode-intro-shift, 0px));
+}
+
+.aura-explode__eyebrow {
+  display: block;
+  margin-bottom: 18px;
+  color: #90eaff;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 2.5px;
+}
+
+.aura-explode__intro h2 {
+  margin: 0;
+  font-size: clamp(40px, 6vw, 76px);
+  line-height: 0.95;
+  letter-spacing: -0.075em;
+  font-weight: 800;
+}
+
+.aura-explode__intro h2 span {
+  color: #9396ad;
+}
+
+.aura-explode__intro p {
+  max-width: 270px;
+  margin-top: 20px;
+  color: #aeb1c3;
+  font-size: 12px;
+  line-height: 1.8;
+}
+
+/* Component callouts */
+
+.aura-explode__callout {
+  position: absolute;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: #b9bfd0;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  pointer-events: none;
+  opacity: var(--callout-opacity, 0);
+  transform: translateY(var(--callout-shift, 8px));
+  transition: color 300ms ease;
+  white-space: nowrap;
+}
+
+.aura-explode__callout span {
+  display: grid;
+  width: 25px;
+  height: 25px;
+  place-items: center;
+  border: 1px solid rgb(131 234 255 / 50%);
+  border-radius: 50%;
+  color: #8ceaff;
+  background: rgb(8 10 19 / 72%);
+}
+
+.aura-explode__callout--headband {
+  top: 27%;
+  right: 13%;
+}
+
+.aura-explode__callout--driver {
+  top: 53%;
+  left: 9%;
+}
+
+.aura-explode__callout--circuit {
+  right: 8%;
+  bottom: 28%;
+}
+
+.aura-explode__callout--shell {
+  top: 69%;
+  right: 13%;
+}
+
+/* Footer progress */
+
+.aura-explode__footer {
+  position: absolute;
+  z-index: 5;
+  right: clamp(20px, 5vw, 75px);
+  bottom: 26px;
+  left: clamp(20px, 5vw, 75px);
+  display: grid;
+  grid-template-columns: 1fr minmax(65px, 180px) 1fr;
+  align-items: center;
+  gap: 18px;
+  color: #969aaf;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 1.3px;
+  pointer-events: none;
+}
+
+.aura-explode__footer > :last-child {
+  text-align: right;
+}
+
+.aura-explode__progress {
+  height: 2px;
+  overflow: hidden;
+  background: rgb(255 255 255 / 15%);
+}
+
+.aura-explode__progress span {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, #8a7cff, #83eaff);
+  box-shadow: 0 0 12px #83eaff;
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+
+/* Tablet */
+
+@media (max-width: 760px) {
+  .aura-explode__intro {
+    top: 14%;
+    left: 24px;
+    width: min(330px, 75vw);
+  }
+
+  .aura-explode__intro h2 {
+    font-size: clamp(41px, 8vw, 62px);
+  }
+
+  .aura-explode__callout--headband {
+    top: 32%;
+    right: 5%;
+  }
+
+  .aura-explode__callout--driver {
+    top: 57%;
+    left: 4%;
+  }
+
+  .aura-explode__callout--circuit {
+    right: 4%;
+    bottom: 31%;
+  }
+
+  .aura-explode__callout--shell {
+    top: 72%;
+    right: 5%;
+  }
+}
+
+/* Mobile */
+
+@media (max-width: 480px) {
+  .aura-explode__header {
+    top: 20px;
+    font-size: 7px;
+    letter-spacing: 0.8px;
+  }
+
+  .aura-explode__intro {
+    top: 13%;
+    left: 20px;
+    width: 82%;
+  }
+
+  .aura-explode__intro h2 {
+    font-size: 43px;
+  }
+
+  .aura-explode__intro p {
+    margin-top: 12px;
+    font-size: 11px;
+  }
+
+  .aura-explode__eyebrow {
+    margin-bottom: 12px;
+    font-size: 8px;
+    letter-spacing: 1.7px;
+  }
+
+  .aura-explode__callout {
+    gap: 5px;
+    font-size: 7px;
+    letter-spacing: 0.4px;
+  }
+
+  .aura-explode__callout span {
+    width: 21px;
+    height: 21px;
+    flex-shrink: 0;
+  }
+
+  .aura-explode__callout--headband {
+    top: 35%;
+    right: 3%;
+  }
+
+  .aura-explode__callout--driver {
+    top: 57%;
+    left: 3%;
+  }
+
+  .aura-explode__callout--circuit {
+    right: 3%;
+    bottom: 29%;
+  }
+
+  .aura-explode__callout--shell {
+    top: 72%;
+    right: 3%;
+  }
+
+  .aura-explode__footer {
+    right: 17px;
+    bottom: 18px;
+    left: 17px;
+    grid-template-columns: 1fr 48px 1fr;
+    gap: 8px;
+    font-size: 7px;
+    letter-spacing: 0.3px;
+  }
+}
+
+/* Accessibility */
+
+@media (prefers-reduced-motion: reduce) {
+  .aura-explode {
+    height: auto;
+  }
+
+  .aura-explode__stage {
+    position: relative;
+    top: auto;
+    height: 100svh;
+  }
+
+  .aura-explode__intro,
+  .aura-explode__callout {
+    transform: none;
+  }
+}

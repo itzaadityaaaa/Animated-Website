@@ -9,6 +9,7 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <link rel="icon" type="image/png" href="./aura.png">
+  <script type="module" src="aura-exploded.js"></script>
 </head>
 <body>
 
@@ -1129,6 +1130,75 @@
       </div>
     </section>
 
+<!-- AURA — EXPLODED VIEW -->
+<section class="aura-explode" id="exploded-view">
+  <script type="module" src="aura-exploded.js"></script>
+  <div class="aura-explode__stage">
+
+    <!-- Three.js renders the product inside this element -->
+    <div class="aura-explode__canvas"
+         data-aura-explode-canvas></div>
+
+    <!-- Top labels -->
+    <header class="aura-explode__header">
+      <span>AURA® / PRODUCT ANATOMY</span>
+      <span class="aura-explode__status">
+        <i></i> ENGINEERED IN LAYERS
+      </span>
+    </header>
+
+    <!-- Introductory copy -->
+    <div class="aura-explode__intro">
+      <span class="aura-explode__eyebrow">
+        EVERY PART HAS A PURPOSE
+      </span>
+
+      <h2>
+        Built from<br>
+        <span>the inside out.</span>
+      </h2>
+
+      <p>One product. Precision in every layer.</p>
+    </div>
+
+    <!-- Component labels -->
+    <div class="aura-explode__callout aura-explode__callout--headband"
+         data-explode-label="headband">
+      <span>01</span> CUSHIONED HEADBAND
+    </div>
+
+    <div class="aura-explode__callout aura-explode__callout--driver"
+         data-explode-label="driver">
+      <span>02</span> ACOUSTIC DRIVER
+    </div>
+
+    <div class="aura-explode__callout aura-explode__callout--circuit"
+         data-explode-label="circuit">
+      <span>03</span> SIGNAL CIRCUIT
+    </div>
+
+    <div class="aura-explode__callout aura-explode__callout--shell"
+         data-explode-label="shell">
+      <span>04</span> PRECISION SHELL
+    </div>
+
+    <!-- Bottom progress -->
+    <footer class="aura-explode__footer">
+      <span class="aura-explode__hint" data-explode-hint>
+        SCROLL TO DISASSEMBLE
+      </span>
+
+      <div class="aura-explode__progress">
+        <span></span>
+      </div>
+
+      <span class="aura-explode__step" data-explode-step>
+        01 — ASSEMBLED
+      </span>
+    </footer>
+
+  </div>
+</section>
     <!-- BUY -->
     <section class="buy section" id="buy">
       <div class="buy-orbit"></div>
